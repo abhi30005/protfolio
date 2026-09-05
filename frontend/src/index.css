@@ -1,64 +1,77 @@
 @import "tailwindcss";
 
 @theme {
-  --color-slate-50: #f8fafc;
-  --color-slate-100: #f1f5f9;
-  --color-slate-200: #e2e8f0;
-  --color-slate-300: #cbd5e1;
-  --color-slate-400: #94a3b8;
-  --color-slate-500: #64748b;
-  --color-slate-600: #475569;
-  --color-slate-700: #334155;
-  --color-slate-800: #1e293b;
-  --color-slate-900: #0f172a;
+  /* Color Palette matching "Deep near-black background, Off-white typography, Indigo, Violet, Electric blue, Cyan accents" */
+  --color-brand-bg: #050505;
+  --color-brand-bg-alt: #0a0a0c;
+  --color-brand-surface: #121217;
+  --color-brand-border: rgba(255, 255, 255, 0.08);
   
-  --color-indigo-50: #eef2ff;
-  --color-indigo-100: #e0e7ff;
-  --color-indigo-200: #c7d2fe;
-  --color-indigo-300: #a5b4fc;
-  --color-indigo-400: #818cf8;
-  --color-indigo-500: #6366f1;
-  --color-indigo-600: #4f46e5;
-  --color-indigo-700: #4338ca;
+  --color-brand-text: #f3f4f6;
+  --color-brand-text-muted: #9ca3af;
   
-  --color-violet-50: #f5f3ff;
-  --color-violet-100: #ede9fe;
-  --color-violet-500: #8b5cf6;
-  --color-violet-600: #7c3aed;
-
-  --color-cyan-50: #ecfeff;
-  --color-cyan-100: #cffafe;
-  --color-cyan-400: #22d3ee;
-  --color-cyan-500: #06b6d4;
+  --color-brand-indigo: #4f46e5;
+  --color-brand-indigo-light: #818cf8;
+  --color-brand-violet: #8b5cf6;
+  --color-brand-blue: #2563eb;
+  --color-brand-cyan: #06b6d4;
 
   --font-sans: 'Inter', system-ui, sans-serif;
+  
+  /* Z-index layers */
+  --z-background: -10;
+  --z-base: 1;
+  --z-content: 10;
+  --z-overlay: 40;
+  --z-modal: 50;
+  --z-cursor: 100;
 }
 
 @layer base {
+  :root {
+    color-scheme: dark;
+  }
+  
   body {
-    @apply bg-slate-50 text-slate-900 font-sans antialiased overflow-x-hidden;
-    /* Custom subtle grid background */
-    background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
-    background-size: 40px 40px;
-    cursor: none; /* Hide default cursor to use custom one */
+    @apply bg-[#050505] text-[#f3f4f6] font-sans antialiased overflow-x-hidden;
+    /* Subtle noise/grid base */
+    background-image: 
+      radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+      radial-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+    background-size: 40px 40px, 12px 12px;
+    background-position: 0 0, 20px 20px;
+    
+    /* Disable default cursor for the custom one */
+    cursor: none;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-semibold tracking-tight text-slate-900;
+    @apply font-semibold tracking-tight text-white;
+  }
+  
+  /* Fallback for cursor if script fails or touch device */
+  @media (pointer: coarse) {
+    body {
+      cursor: auto;
+    }
   }
 }
 
 @layer utilities {
   .glass {
-    @apply bg-white/60 backdrop-blur-md border border-white/40 shadow-sm;
+    @apply bg-[#121217]/60 backdrop-blur-xl border border-white/5 shadow-2xl;
   }
   
-  .glass-dark {
-    @apply bg-slate-900/60 backdrop-blur-md border border-slate-700/50 shadow-md;
+  .glass-light {
+    @apply bg-white/5 backdrop-blur-md border border-white/10 shadow-lg;
   }
 
   .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 via-violet-500 to-cyan-500;
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-[#818cf8] via-[#c084fc] to-[#22d3ee];
+  }
+  
+  .text-gradient-subtle {
+    @apply bg-clip-text text-transparent bg-gradient-to-br from-white to-white/50;
   }
 
   .no-scrollbar::-webkit-scrollbar {
@@ -69,11 +82,9 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
-}
-
-/* Fallback for cursor if script fails */
-@media (pointer: coarse) {
-  body {
-    cursor: auto;
+  
+  /* Selection styling */
+  ::selection {
+    @apply bg-[#4f46e5]/30 text-white;
   }
 }

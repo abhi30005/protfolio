@@ -3,91 +3,118 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import { journey } from '../data/journey';
 
 const journeyNodes = [
-  { month: "MONTH 01", title: "Foundation", summary: "Strengthening programming fundamentals and understanding how modern applications are structured.", items: journey[0].items },
-  { month: "MONTH 02", title: "Full-Stack Development", summary: "I learned how the different parts of a web application communicate with each other.", items: journey[1].items },
-  { month: "MONTH 03", title: "AI / ML", summary: "Exploring AI, NLP, and LLMs to solve complex user problems.", items: journey[2].items },
-  { month: "MONTH 04", title: "Automation", summary: "I explored how repetitive business workflows can be automated using modern platforms.", items: journey[3].items },
-  { month: "MONTH 05", title: "AI Product Development", summary: "Integrating everything to build scalable, AI-powered applications.", items: journey[4].items },
-  { month: "MONTH 06", title: "Professional Growth", summary: "From writing code to solving real-world problems through Product Thinking and UI/UX.", items: ["Problem Solving", "UI/UX", "Product Thinking", "AI Integration", "Full-Stack Thinking", "Automation"] }
+  { month: "FEB", title: "Foundation", summary: "Strengthening programming fundamentals and understanding how modern applications are structured.", items: journey[0].items },
+  { month: "MAR", title: "Full Stack", summary: "Learning how frontend, APIs, backend, and databases communicate.", items: journey[1].items },
+  { month: "APR", title: "AI / ML", summary: "Exploring AI, NLP, and LLMs to solve complex user problems.", items: journey[2].items },
+  { month: "MAY", title: "Automation", summary: "Automating repetitive business workflows using enterprise platforms.", items: journey[3].items },
+  { month: "JUN", title: "AI Products", summary: "Integrating everything to build scalable, AI-powered applications.", items: journey[4].items },
+  { month: "JUL-AUG", title: "Growth", summary: "Moving from writing code to solving real-world problems.", items: ["Problem Solving", "UI/UX", "Product Thinking", "AI Integration", "Full-Stack Thinking", "Automation"] }
 ];
 
 export default function JourneyTimeline() {
-  const targetRef = useRef(null);
+  const containerRef = useRef(null);
   
   const { scrollYProgress } = useScroll({
-    target: targetRef,
+    target: containerRef,
+    offset: ["start end", "end end"]
   });
 
-  const x = useTransform(scrollYProgress, [0, 1], ["0%", "-85%"]);
+  const lineHeight = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
 
   return (
-    <section ref={targetRef} className="relative h-[300vh] bg-slate-50">
+    <section id="journey" ref={containerRef} className="relative py-32 bg-brand-bg overflow-hidden">
       
-      {/* Sticky Container */}
-      <div className="sticky top-0 h-screen flex flex-col items-center justify-center overflow-hidden">
+      {/* Background Glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-5xl h-[80%] bg-brand-indigo/5 blur-[120px] -z-10 rounded-full" />
+
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
         
-        <div className="text-center mb-20 px-6">
-          <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-4">
-            6 Months.<br/>From Learning to Building.
-          </h2>
-          <p className="text-slate-500 max-w-2xl mx-auto text-lg">
-            A journey through development, AI, automation, experimentation and real-world problem solving.
-          </p>
+        {/* Header */}
+        <div className="text-center mb-24">
+          <motion.h2 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6, type: "spring", bounce: 0.4 }}
+            className="text-4xl md:text-6xl font-black text-white tracking-tighter mb-4"
+          >
+            6 MONTHS.<br className="md:hidden"/> <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-indigo to-brand-cyan">ONE TRANSFORMATION.</span>
+          </motion.h2>
+          <motion.p 
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2, duration: 0.6 }}
+            className="text-brand-text-muted max-w-2xl mx-auto text-sm md:text-base uppercase tracking-widest font-bold"
+          >
+            From learning fundamentals to building AI-powered products.
+          </motion.p>
         </div>
 
-        {/* Scroll Progress Indicator fixed on screen */}
-        <div className="absolute top-8 left-8 text-slate-400 font-bold tracking-widest text-sm z-50 mix-blend-difference hidden md:block">
-          THE JOURNEY
-        </div>
-
-        {/* Horizontal scroll container */}
-        <motion.div style={{ x }} className="flex gap-16 md:gap-32 px-12 md:px-32 relative pt-20 w-max">
+        {/* Timeline Container */}
+        <div className="relative max-w-5xl mx-auto">
           
-          {/* Connecting Line Background */}
-          <div className="absolute top-[108px] left-0 w-full h-1 bg-slate-200" />
+          {/* Center Line Background */}
+          <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-[2px] bg-white/5 md:-translate-x-1/2" />
           
-          {/* Animated Connecting Line Foreground */}
+          {/* Center Line Animated Progress */}
           <motion.div 
-            className="absolute top-[108px] left-0 h-1 bg-indigo-500 origin-left" 
-            style={{ scaleX: scrollYProgress, width: '100%' }}
+            className="absolute left-4 md:left-1/2 top-0 w-[2px] bg-gradient-to-b from-brand-indigo via-brand-violet to-brand-cyan md:-translate-x-1/2 shadow-[0_0_15px_rgba(99,102,241,0.5)] origin-top"
+            style={{ height: lineHeight }}
           />
 
-          {journeyNodes.map((node, i) => {
-            return (
-              <div key={i} className="relative w-[300px] md:w-[400px] flex-shrink-0 group">
-                
-                {/* Node marker */}
-                <div className="absolute -top-[12px] left-0 w-6 h-6 rounded-full bg-white border-4 border-indigo-500 z-10 group-hover:scale-125 group-hover:bg-indigo-50 transition-all shadow-md" />
-                
-                <div className="pt-8">
-                  <div className="text-xs font-bold text-indigo-500 tracking-widest mb-2">{node.month}</div>
-                  <h3 className="text-2xl font-black text-slate-900 mb-4">{node.title}</h3>
-                  <p className="text-slate-600 mb-6 font-medium leading-relaxed">{node.summary}</p>
+          <div className="flex flex-col gap-16 md:gap-24">
+            {journeyNodes.map((node, i) => {
+              const isEven = i % 2 === 0;
+              return (
+                <div key={i} className={`relative flex items-center w-full ${isEven ? 'md:justify-start' : 'md:justify-end'}`}>
                   
-                  <div className="glass p-6 rounded-3xl border border-white shadow-xl bg-white/50 backdrop-blur-xl group-hover:-translate-y-2 transition-transform duration-300">
-                    <div className="flex flex-wrap gap-2">
-                      {node.items.map((item, j) => (
-                        <span key={j} className="px-3 py-1.5 bg-slate-100 text-slate-600 rounded-lg text-sm font-semibold">
-                          {item}
-                        </span>
-                      ))}
+                  {/* Timeline Node Dot */}
+                  <motion.div 
+                    initial={{ scale: 0, opacity: 0 }}
+                    whileInView={{ scale: 1, opacity: 1 }}
+                    viewport={{ once: true, margin: "-100px" }}
+                    transition={{ delay: 0.1, type: "spring", stiffness: 300, damping: 20 }}
+                    className="absolute left-4 md:left-1/2 w-6 h-6 rounded-full bg-brand-bg border-4 border-brand-indigo -translate-x-[10px] md:-translate-x-1/2 z-20 shadow-[0_0_20px_rgba(99,102,241,0.5)]"
+                  />
+
+                  {/* Content Card */}
+                  <motion.div 
+                    initial={{ opacity: 0, x: isEven ? -50 : 50, y: 20 }}
+                    whileInView={{ opacity: 1, x: 0, y: 0 }}
+                    viewport={{ once: true, margin: "-100px" }}
+                    transition={{ duration: 0.5, type: "spring", bounce: 0.4 }}
+                    className={`w-full ml-12 md:ml-0 md:w-[45%] ${isEven ? 'md:pr-12' : 'md:pl-12'}`}
+                  >
+                    <div className="group relative glass p-6 md:p-8 rounded-3xl hover:bg-white/5 transition-colors duration-500 border border-white/10 hover:border-brand-indigo/50 overflow-hidden cursor-none" data-cursor="project">
+                      
+                      {/* Subtle hover glow effect */}
+                      <div className="absolute inset-0 bg-gradient-to-br from-brand-indigo/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                      
+                      <div className="relative z-10">
+                        <div className="inline-block px-3 py-1 mb-4 rounded-full bg-brand-indigo/20 border border-brand-indigo/30 text-brand-cyan text-xs font-bold tracking-widest uppercase">
+                          {node.month}
+                        </div>
+                        <h3 className="text-2xl md:text-3xl font-black text-white mb-3 tracking-tight group-hover:text-brand-cyan transition-colors">{node.title}</h3>
+                        <p className="text-brand-text-muted mb-6 text-sm md:text-base leading-relaxed">{node.summary}</p>
+                        
+                        <div className="flex flex-wrap gap-2">
+                          {node.items.map((item, j) => (
+                            <span key={j} className="px-3 py-1 bg-black/40 border border-white/5 text-white/80 rounded-lg text-xs font-medium tracking-wide">
+                              {item}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
                     </div>
-                  </div>
+                  </motion.div>
+
                 </div>
-
-              </div>
-            );
-          })}
-          
-          {/* Ending Text */}
-          <div className="relative w-[400px] flex-shrink-0 flex flex-col justify-center pl-16">
-            <h3 className="text-4xl font-black text-slate-900 leading-tight">
-              Learning became building. <br/>
-              <span className="text-indigo-600">Building became problem solving.</span>
-            </h3>
+              );
+            })}
           </div>
-
-        </motion.div>
+          
+        </div>
       </div>
     </section>
   );
