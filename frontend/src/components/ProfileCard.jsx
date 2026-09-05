@@ -86,7 +86,7 @@ export default function ProfileCard() {
           <div className="w-full h-full rounded-full overflow-hidden bg-brand-surface relative group">
             <div className="absolute inset-0 bg-brand-indigo/20 mix-blend-overlay opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
             <img 
-              src="/profile.jpg" 
+              src="https://ui-avatars.com/api/?name=Abhijit+Bhunia&background=0D8ABC&color=fff&size=512" 
               alt="Abhijit Bhunia"
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
               onError={(e) => {

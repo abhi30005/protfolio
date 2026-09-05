@@ -42,7 +42,7 @@ export default function Skills() {
       >
         {/* Connection Lines (SVGs drawing between nodes) */}
         <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-20">
-          <g transform={`translate(50%, 50%)`}>
+          <g style={{ transform: 'translate(50%, 50%)' }}>
             {techNodes.map((node, i) => (
               techNodes.slice(i + 1).map((target, j) => {
                 // Only connect some nodes to avoid a mess

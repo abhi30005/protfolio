@@ -18,7 +18,7 @@ export default function About() {
           <TiltCard>
             <div className="aspect-[3/4] rounded-3xl overflow-hidden shadow-2xl">
               <img 
-                src="/profile.jpg" 
+                src="https://ui-avatars.com/api/?name=Abhijit+Bhunia&background=0D8ABC&color=fff&size=512" 
                 alt="Profile" 
                 className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700" 
                 onError={(e) => {
