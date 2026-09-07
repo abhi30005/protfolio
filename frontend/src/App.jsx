@@ -4,8 +4,6 @@ import Hero from './components/Hero';
 import JourneyTimeline from './components/JourneyTimeline';
 import Transformation from './components/Transformation';
 import Projects from './components/Projects';
-import ReactMagic from './components/ReactMagic';
-import UIUXThinking from './components/UIUXThinking';
 import Skills from './components/Skills';
 import Learning from './components/Learning';
 import About from './components/About';
@@ -64,13 +62,7 @@ function App() {
                 <Projects />
               </ChapterTransition>
 
-              <ChapterTransition>
-                <ReactMagic />
-              </ChapterTransition>
 
-              <ChapterTransition>
-                <UIUXThinking />
-              </ChapterTransition>
 
               <ChapterTransition>
                 <Skills />

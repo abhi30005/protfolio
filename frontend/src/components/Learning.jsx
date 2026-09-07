@@ -11,7 +11,7 @@ const learnings = [
 
 export default function Learning() {
   return (
-    <section className="py-32 px-6 max-w-7xl mx-auto relative">
+    <section id="learning" className="py-32 px-6 max-w-7xl mx-auto relative">
       <div className="text-center mb-24">
         <motion.h2 
           initial={{ opacity: 0, y: 20 }}

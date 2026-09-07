@@ -8,7 +8,7 @@ const phases = [
   "BREAK",
   "DEBUG",
   "IMPROVE",
-  "SHIP"
+  "DEPLOY"
 ];
 
 export default function Transformation() {

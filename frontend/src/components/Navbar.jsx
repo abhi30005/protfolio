@@ -4,7 +4,7 @@ import { Menu, X } from 'lucide-react';
 import { profile } from '../data/profile';
 
 const navLinks = [
-  { name: 'Home', href: '#home' },
+  { name: 'Home', href: '#hero' },
   { name: 'Journey', href: '#journey' },
   { name: 'Projects', href: '#projects' },
   { name: 'Skills', href: '#skills' },
@@ -15,7 +15,7 @@ const navLinks = [
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [activeSection, setActiveSection] = useState('home');
+  const [activeSection, setActiveSection] = useState('hero');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
@@ -43,6 +43,16 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const handleNavClick = (e, href) => {
+    e.preventDefault();
+    const id = href.substring(1);
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+    setMobileMenuOpen(false);
+  };
+
   return (
     <>
       <header
@@ -51,7 +61,7 @@ export default function Navbar() {
         }`}
       >
         <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
-          <a href="#home" className="text-xl font-bold tracking-tight">
+          <a href="#hero" onClick={(e) => handleNavClick(e, '#hero')} className="text-xl font-bold tracking-tight">
             {profile.name.toUpperCase()}
           </a>
 
@@ -61,12 +71,12 @@ export default function Navbar() {
               <a
                 key={link.name}
                 href={link.href}
+                onClick={(e) => handleNavClick(e, link.href)}
                 className={`relative px-4 py-2 rounded-full text-sm font-medium transition-colors ${
                   activeSection === link.href.substring(1) 
                     ? (isScrolled ? 'text-slate-900' : 'text-slate-900') 
                     : (isScrolled ? 'text-slate-300 hover:text-white' : 'text-slate-600 hover:text-slate-900')
                 }`}
-                onClick={() => setMobileMenuOpen(false)}
               >
                 {activeSection === link.href.substring(1) && (
                   <motion.div
@@ -105,7 +115,7 @@ export default function Navbar() {
                 <a
                   key={link.name}
                   href={link.href}
-                  onClick={() => setMobileMenuOpen(false)}
+                  onClick={(e) => handleNavClick(e, link.href)}
                   className="text-2xl font-medium text-white hover:text-cyan-400 transition-colors py-4 border-b border-white/10 last:border-0"
                 >
                   {link.name}

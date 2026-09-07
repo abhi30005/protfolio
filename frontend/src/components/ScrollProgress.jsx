@@ -7,6 +7,7 @@ const chapters = [
   { id: 'journey', name: 'JOURNEY' },
   { id: 'projects', name: 'PROJECTS' },
   { id: 'skills', name: 'SKILLS' },
+  { id: 'learning', name: 'LEARNING' },
   { id: 'about', name: 'ABOUT' },
   { id: 'contact', name: 'CONTACT' }
 ];
@@ -44,24 +45,7 @@ export default function ScrollProgress() {
 
   return (
     <div className="fixed right-6 top-1/2 -translate-y-1/2 flex flex-col items-end gap-4 z-50 mix-blend-difference hidden md:flex pointer-events-none">
-      <div className="flex flex-col items-end gap-1">
-        <motion.span 
-          key={activeId}
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-xs font-bold text-white tracking-widest"
-        >
-          {String(activeIndex + 1).padStart(2, '0')} / {String(chapters.length).padStart(2, '0')}
-        </motion.span>
-        <motion.span 
-          key={`name-${activeId}`}
-          initial={{ opacity: 0, x: 10 }}
-          animate={{ opacity: 1, x: 0 }}
-          className="text-[10px] font-medium text-white/70 tracking-widest uppercase"
-        >
-          {chapters[activeIndex].name}
-        </motion.span>
-      </div>
+
       
       <div className="relative w-px h-32 bg-white/10 overflow-hidden">
         <motion.div 

@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { ExternalLink, X, ArrowRight, LayoutDashboard, BrainCircuit } from 'lucide-react';
 import { projects } from '../data/projects';
@@ -31,24 +31,43 @@ function CaseStudy({ project, onClose }) {
             CASE STUDY
           </div>
           <h1 className="text-5xl md:text-7xl lg:text-8xl font-black text-white mb-8 tracking-tighter leading-none">{project.name}</h1>
-          <p className="text-xl md:text-3xl text-brand-text-muted font-medium max-w-2xl mx-auto leading-relaxed">{project.shortDescription}</p>
+          <p className="text-xl md:text-3xl text-brand-text-muted font-medium max-w-2xl mx-auto leading-relaxed mb-16">{project.shortDescription}</p>
           
-          <div className="mt-16 flex flex-wrap justify-center gap-6">
+          {project.liveUrl ? (
+            <div className="w-full aspect-video rounded-3xl overflow-hidden mb-16 border border-white/10 relative bg-brand-surface">
+              <iframe 
+                src={project.liveUrl} 
+                title={`${project.name} preview`}
+                className="border-0 pointer-events-none absolute top-0 left-0"
+                style={{ width: '200%', height: '200%', transform: 'scale(0.5)', transformOrigin: 'top left' }}
+                loading="lazy"
+                sandbox="allow-scripts allow-same-origin"
+              />
+            </div>
+          ) : project.image && (
+            <div className="w-full aspect-video rounded-3xl overflow-hidden mb-16 border border-white/10 relative bg-brand-surface">
+              <img 
+                src={project.image} 
+                alt={`${project.name} preview`} 
+                className="w-full h-full object-cover object-top"
+              />
+            </div>
+          )}
+          
+          <div className="mt-16 flex flex-wrap items-center justify-center gap-6">
             {project.liveUrl && (
               <Magnetic>
-                <a href={project.liveUrl} target="_blank" rel="noreferrer" className="px-8 py-4 bg-white text-black rounded-full font-bold tracking-widest text-sm hover:scale-105 transition-transform flex items-center gap-3 group" data-cursor="link">
+                <a href={project.liveUrl} target="_blank" rel="noreferrer" className="flex items-center justify-center px-8 h-14 bg-white text-black rounded-full font-bold tracking-widest text-sm hover:scale-105 transition-transform gap-3 group" data-cursor="link">
                   EXPLORE LIVE
                   <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
                 </a>
               </Magnetic>
             )}
-            {project.githubUrl && (
-              <Magnetic>
-                <a href={project.githubUrl} target="_blank" rel="noreferrer" className="px-8 py-4 bg-transparent border-2 border-white/20 text-white rounded-full font-bold tracking-widest text-sm hover:bg-white/10 transition-colors" data-cursor="link">
-                  GITHUB
-                </a>
-              </Magnetic>
-            )}
+            <Magnetic>
+              <a href={project.githubUrl || "#"} target={project.githubUrl ? "_blank" : "_self"} rel="noreferrer" className="flex items-center justify-center px-8 h-14 bg-transparent border-2 border-white/20 text-white rounded-full font-bold tracking-widest text-sm hover:bg-white/10 transition-colors" data-cursor="link">
+                GITHUB
+              </a>
+            </Magnetic>
           </div>
         </div>
 
@@ -133,6 +152,28 @@ function CaseStudy({ project, onClose }) {
             </div>
           </section>
 
+          <section>
+            <div className="flex flex-col md:flex-row gap-8 md:gap-16">
+              <div className="w-24 shrink-0">
+                <div className="text-sm font-bold text-brand-cyan tracking-widest uppercase">05</div>
+                <div className="text-brand-text-muted text-xs tracking-widest uppercase mt-2">Future</div>
+              </div>
+              <div className="w-full">
+                <h2 className="text-3xl md:text-4xl font-black text-white mb-8 tracking-tighter">Future Scope</h2>
+                <ul className="space-y-4">
+                  {project.futureScope.map((scope, idx) => (
+                    <li key={idx} className="flex items-start gap-4">
+                      <div className="w-6 h-6 rounded-full bg-brand-surface border border-white/20 flex items-center justify-center shrink-0 mt-1">
+                        <ArrowRight size={12} className="text-brand-cyan" />
+                      </div>
+                      <span className="text-xl text-brand-text-muted leading-relaxed">{scope}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </section>
+
         </div>
       </div>
     </motion.div>
@@ -141,6 +182,26 @@ function CaseStudy({ project, onClose }) {
 
 export default function Projects() {
   const [activeProject, setActiveProject] = useState(null);
+
+  useEffect(() => {
+    const handlePopState = () => {
+      setActiveProject(null);
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
+  const openProject = (project) => {
+    window.history.pushState({ modal: true }, '', window.location.pathname);
+    setActiveProject(project);
+  };
+
+  const closeProject = () => {
+    setActiveProject(null);
+    if (window.history.state?.modal) {
+      window.history.back();
+    }
+  };
   
   const flagship = projects.find(p => p.featured);
   const others = projects.filter(p => !p.featured);
@@ -245,7 +306,7 @@ export default function Projects() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ delay: index * 0.1 }}
-              onClick={() => setActiveProject(project)}
+              onClick={() => openProject(project)}
               className="group relative flex flex-col md:flex-row md:items-center justify-between gap-6 p-6 md:p-8 rounded-[2rem] bg-brand-surface/50 border border-white/5 hover:border-brand-indigo/30 hover:bg-white/5 transition-all duration-500 cursor-none overflow-hidden"
               data-cursor="project"
             >
@@ -284,7 +345,7 @@ export default function Projects() {
 
       <AnimatePresence>
         {activeProject && (
-          <CaseStudy project={activeProject} onClose={() => setActiveProject(null)} />
+          <CaseStudy project={activeProject} onClose={closeProject} />
         )}
       </AnimatePresence>
     </section>

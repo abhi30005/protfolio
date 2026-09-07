@@ -4,7 +4,7 @@ import TiltCard from './TiltCard';
 
 export default function About() {
   return (
-    <section className="py-24 px-6 max-w-7xl mx-auto relative overflow-hidden">
+    <section id="about" className="py-24 px-6 max-w-7xl mx-auto relative overflow-hidden">
       
       {/* Editorial Profile Section */}
       <div className="grid lg:grid-cols-12 gap-12 items-center mb-48">
@@ -100,36 +100,7 @@ export default function About() {
         </p>
       </div>
 
-      {/* Future Direction */}
-      <div className="max-w-4xl mx-auto">
-        <h2 className="text-sm font-bold tracking-widest text-slate-400 mb-12 uppercase text-center">What's Next?</h2>
-        
-        <div className="space-y-4">
-          {[
-            "AI Agents",
-            "Advanced AI Applications",
-            "Scalable Full-Stack Systems",
-            "Better UI/UX",
-            "Real-World Products"
-          ].map((item, idx, arr) => (
-            <motion.div 
-              key={item}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: idx * 0.1 }}
-              className="flex flex-col items-center"
-            >
-              <div className="w-full glass p-6 rounded-2xl text-center shadow-sm border border-slate-200">
-                <span className="text-xl font-bold text-slate-800">{item}</span>
-              </div>
-              {idx < arr.length - 1 && (
-                <div className="w-0.5 h-8 bg-slate-200 my-2" />
-              )}
-            </motion.div>
-          ))}
-        </div>
-      </div>
+
 
     </section>
   );
