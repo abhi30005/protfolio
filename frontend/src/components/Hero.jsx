@@ -27,23 +27,29 @@ export default function Hero() {
             Hello, I'm
           </h2>
           
-          <h1 className="text-5xl md:text-7xl font-black text-white tracking-tighter leading-[1.1] mb-6 relative">
+          <h1 className="text-5xl md:text-7xl font-black text-white tracking-tighter leading-[1.1] mb-4 relative">
             <span className="relative z-10">{profile.name.toUpperCase()}</span>
             {/* Subtle text shadow/glow behind the name */}
             <span className="absolute top-0 left-0 blur-[20px] text-brand-indigo/40 select-none z-0">
               {profile.name.toUpperCase()}
             </span>
           </h1>
+
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mb-8 text-xs md:text-sm font-bold text-brand-text-muted tracking-widest uppercase">
+            <span className="flex items-center gap-2">
+              <span className="text-brand-indigo">ID:</span> {profile.employeeId}
+            </span>
+            <span className="w-1.5 h-1.5 rounded-full bg-white/20"></span>
+            <span className="flex items-center gap-2">
+              <span className="text-brand-cyan">CGPA:</span> {profile.cgpa}
+            </span>
+            <span className="w-1.5 h-1.5 rounded-full bg-white/20"></span>
+            <span>{profile.college}</span>
+          </div>
           
           <div className="flex flex-col gap-2 mb-10">
             <p className="text-lg md:text-xl font-medium text-brand-cyan uppercase tracking-widest">
               AI/ML Trainee
-            </p>
-            <p className="text-lg md:text-xl font-medium text-brand-text-muted uppercase tracking-widest">
-              Full-Stack Developer
-            </p>
-            <p className="text-lg md:text-xl font-medium text-white/40 uppercase tracking-widest">
-              UI/UX Enthusiast
             </p>
           </div>
           
