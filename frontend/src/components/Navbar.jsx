@@ -25,7 +25,7 @@ export default function Navbar() {
       // Determine active section based on scroll position
       const sections = navLinks.map(link => link.href.substring(1));
       let currentSection = sections[0];
-      
+
       for (const section of sections) {
         const element = document.getElementById(section);
         if (element) {
@@ -56,9 +56,8 @@ export default function Navbar() {
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          isScrolled ? 'py-4 glass-dark text-white shadow-md' : 'py-6 bg-transparent text-slate-800'
-        }`}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'py-4 glass-dark text-white shadow-md' : 'py-6 bg-transparent text-slate-800'
+          }`}
       >
         <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
           <a href="#hero" onClick={(e) => handleNavClick(e, '#hero')} className="text-xl font-bold tracking-tight">
@@ -72,11 +71,10 @@ export default function Navbar() {
                 key={link.name}
                 href={link.href}
                 onClick={(e) => handleNavClick(e, link.href)}
-                className={`relative px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-                  activeSection === link.href.substring(1) 
-                    ? (isScrolled ? 'text-slate-900' : 'text-slate-900') 
+                className={`relative px-4 py-2 rounded-full text-sm font-medium transition-colors ${activeSection === link.href.substring(1)
+                    ? (isScrolled ? 'text-slate-900' : 'text-slate-900')
                     : (isScrolled ? 'text-slate-300 hover:text-white' : 'text-slate-600 hover:text-slate-900')
-                }`}
+                  }`}
               >
                 {activeSection === link.href.substring(1) && (
                   <motion.div

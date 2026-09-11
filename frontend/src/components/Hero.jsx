@@ -8,25 +8,25 @@ export default function Hero() {
   return (
     <section id="hero" className="min-h-[100svh] pt-24 pb-16 px-6 flex flex-col justify-center max-w-7xl mx-auto relative z-10">
       <div className="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center h-full">
-        
+
         {/* Left Content */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, filter: 'blur(10px)', y: 20 }}
           animate={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
           transition={{ duration: 1.2, ease: [0.76, 0, 0.24, 1] }}
           className="order-2 lg:order-1 flex flex-col"
         >
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, width: 0 }}
             animate={{ opacity: 1, width: '40px' }}
             transition={{ delay: 0.5, duration: 0.8 }}
             className="h-[2px] bg-brand-cyan mb-8"
           />
-          
+
           <h2 className="text-brand-text-muted font-bold tracking-[0.3em] text-xs uppercase mb-4">
             Hello, I'm
           </h2>
-          
+
           <h1 className="text-5xl md:text-7xl font-black text-white tracking-tighter leading-[1.1] mb-4 relative">
             <span className="relative z-10">{profile.name.toUpperCase()}</span>
             {/* Subtle text shadow/glow behind the name */}
@@ -46,17 +46,17 @@ export default function Hero() {
             <span className="w-1.5 h-1.5 rounded-full bg-white/20"></span>
             <span>{profile.college}</span>
           </div>
-          
+
           <div className="flex flex-col gap-2 mb-10">
             <p className="text-lg md:text-xl font-medium text-brand-cyan uppercase tracking-widest">
               AI/ML Trainee
             </p>
           </div>
-          
+
           <div className="flex flex-wrap items-center gap-6 mt-4">
             <Magnetic strength={50}>
-              <a 
-                href="#journey" 
+              <a
+                href="#journey"
                 className="px-8 py-4 bg-white text-black rounded-full font-bold text-sm tracking-widest uppercase hover:scale-105 transition-transform flex items-center gap-3 group"
                 data-cursor="link"
               >
@@ -64,12 +64,12 @@ export default function Hero() {
                 <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
               </a>
             </Magnetic>
-            
+
             <Magnetic strength={30}>
-              <a 
-                href={profile.links.resume} 
-                target="_blank" 
-                rel="noreferrer" 
+              <a
+                href={profile.links.resume}
+                target="_blank"
+                rel="noreferrer"
                 className="flex items-center gap-2 text-brand-text-muted hover:text-white transition-colors text-sm font-bold tracking-widest uppercase"
                 data-cursor="link"
               >
@@ -81,7 +81,7 @@ export default function Hero() {
         </motion.div>
 
         {/* Right Content - Interactive 3D Profile Card */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1.2, ease: [0.76, 0, 0.24, 1], delay: 0.2 }}

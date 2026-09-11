@@ -32,16 +32,16 @@ function App() {
         {!introFinished ? (
           <IntroScreen key="intro" onComplete={() => setIntroFinished(true)} />
         ) : (
-          <motion.div 
+          <motion.div
             key="main"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1 }}
           >
             <Navbar />
-            
+
             <main className="relative z-10 flex flex-col">
-              
+
               <ChapterTransition>
                 <Hero />
               </ChapterTransition>

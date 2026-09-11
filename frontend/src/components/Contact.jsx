@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Mail, Code2, Globe, ExternalLink, CheckCircle } from 'lucide-react';
 import { profile } from '../data/profile';
+import SocialFlipButton from './SocialFlipButton';
 
 export default function Contact() {
   const [formState, setFormState] = useState({ name: '', email: '', message: '' });
@@ -42,33 +43,10 @@ export default function Contact() {
             viewport={{ once: true, margin: "-100px" }}
             className="flex flex-col gap-8"
           >
-            <div className="glass p-8 rounded-3xl">
-              <h3 className="text-2xl font-semibold mb-6">Connect with me</h3>
-              <div className="flex flex-col gap-4">
-                <a href={profile.links.email} className="flex items-center gap-4 text-slate-600 hover:text-indigo-600 transition-colors group">
-                  <div className="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <Mail size={24} />
-                  </div>
-                  <span className="font-medium text-lg">Send me an email</span>
-                </a>
-                <a href={profile.links.github} target="_blank" rel="noreferrer" className="flex items-center gap-4 text-slate-600 hover:text-indigo-600 transition-colors group">
-                  <div className="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <Code2 size={24} />
-                  </div>
-                  <span className="font-medium text-lg">Check my GitHub</span>
-                </a>
-                <a href={profile.links.linkedin} target="_blank" rel="noreferrer" className="flex items-center gap-4 text-slate-600 hover:text-indigo-600 transition-colors group">
-                  <div className="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <Globe size={24} />
-                  </div>
-                  <span className="font-medium text-lg">Connect on LinkedIn</span>
-                </a>
-                <a href={profile.links.portfolio} target="_blank" rel="noreferrer" className="flex items-center gap-4 text-slate-600 hover:text-indigo-600 transition-colors group">
-                  <div className="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <ExternalLink size={24} />
-                  </div>
-                  <span className="font-medium text-lg">View my Portfolio</span>
-                </a>
+            <div className="glass p-8 rounded-3xl flex flex-col justify-center h-full min-h-[300px]">
+              <h3 className="text-2xl font-semibold mb-6 text-center md:text-left">Connect with me</h3>
+              <div className="w-full flex justify-center md:justify-start">
+                <SocialFlipButton />
               </div>
             </div>
           </motion.div>

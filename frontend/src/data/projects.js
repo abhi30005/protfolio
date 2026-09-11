@@ -62,8 +62,7 @@ export const projects = [
 
     visualStyle: "flagship",
 
-    image:
-      "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=1200&h=600"
+    image: ""
   },
   {
     id: 2,
@@ -122,8 +121,7 @@ export const projects = [
 
     visualStyle: "split",
 
-    image:
-      "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80&w=1200&h=600"
+    image: ""
   },
   {
     id: 3,
@@ -176,8 +174,7 @@ export const projects = [
 
     visualStyle: "floating",
 
-    image:
-      "https://images.unsplash.com/photo-1586281380349-632531db7ed4?auto=format&fit=crop&q=80&w=1200&h=600"
+    image: ""
   },
   {
     id: 4,
@@ -205,7 +202,7 @@ export const projects = [
       "Cloudinary"
     ],
 
-    liveUrl: "https://AIGramX-frontend-swart.vercel.app/",
+    liveUrl: "https://texts-frontend-swart.vercel.app/login",
     githubUrl: "https://github.com/abhi30052004/AIGramX.git",
 
     futureScope: [
@@ -240,8 +237,7 @@ export const projects = [
 
     visualStyle: "stacked",
 
-    image:
-      "https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&q=80&w=1200&h=600"
+    image: ""
   },
 
   {
@@ -314,8 +310,7 @@ export const projects = [
 
     featured: false,
     visualStyle: "architecture",
-    image:
-      "https://images.unsplash.com/photo-1501504905252-473c47e087f8?auto=format&fit=crop&q=80&w=1200&h=600"
+    image: ""
   },
   {
     id: 6,
@@ -367,8 +362,7 @@ export const projects = [
     featured: false,
     visualStyle: "split",
 
-    image:
-      "https://images.unsplash.com/photo-1557200134-90327ee9fafa?auto=format&fit=crop&q=80&w=1200&h=600"
+    image: ""
   },
   {
     id: 7,
@@ -420,8 +414,7 @@ export const projects = [
     featured: false,
     visualStyle: "split",
 
-    image:
-      "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&q=80&w=1200&h=600"
+    image: ""
   },
   {
     id: 8,
@@ -484,8 +477,7 @@ export const projects = [
     featured: false,
     visualStyle: "split",
 
-    image:
-      "https://images.unsplash.com/photo-1449844908441-8829872d2607?auto=format&fit=crop&q=80&w=1200&h=600"
+    image: ""
   },
   {
     id: 9,
@@ -536,8 +528,7 @@ export const projects = [
     featured: false,
     visualStyle: "gallery",
 
-    image:
-      "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&q=80&w=1200&h=600"
+    image: ""
   },
   {
     id: 10,
@@ -605,7 +596,6 @@ export const projects = [
     featured: false,
     visualStyle: "architecture",
 
-    image:
-      "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&q=80&w=1200&h=600"
+    image: ""
   }
 ];

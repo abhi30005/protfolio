@@ -1,47 +1,11 @@
-Create a modern, premium Projects section for my React + Vite + Tailwind + Framer Motion portfolio.
-
-Show all projects in an interactive collage/card layout with subtle hover, scale, glow, and motion effects.
-When a project is clicked, smoothly expand the selected card, darken the page, and apply a strong blurred/glassmorphism fullscreen background.
-Transform the selected project into a large centered 3D interactive book.
-Use my existing InteractiveBook component and integrate it with dynamic project data.
-The book should open with a realistic 3D cover/page-turn animation.
-Book pages should include: Cover, Overview, Problem, Solution, Features, Tech Stack, Architecture, Workflow, Screenshots, Challenges, Future, Live Demo/GitHub.
-Support Next, Previous, Restart, Escape, and Close.
-Closing the book should smoothly reverse the animation and return to the original collage.
-Make everything fully responsive for desktop, tablet, and mobile.
-Use AnimatePresence, layoutId, perspective, transform-style: preserve-3d, and smooth cinematic transitions.
-Keep the design dark, minimal, futuristic, editorial, and high-end, using #050505, #121217, #f3f4f6, #9ca3af, and subtle borders.
-Integrate Glow Cursor, Falling Rays, Shuffle Text, Web Threads subtly if already available.
-Use reusable ProjectCard, ProjectCollage, ProjectBookModal, and InteractiveBook components.
-Include projects such as ATLAS, AI LMS, Resume AI, AI Content Studio, AIGramX, AI Email Writer, AI Medical Assistant, City Canvas, Safari/City Travel, and PreSales AI Agent V2.
-Clearly mark PreSales AI Agent V2 as “In Progress”.
-Keep the implementation production-ready, clean, strongly typed, performant, and free of unnecessary dependencies.
-
-Main goal: make the project card → fullscreen blurred modal → 3D book transition feel like one continuous cinematic interaction, not a normal popup.
-
-interractive book:
-project section each project is in this type of component "use client";
-
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { cn } from '@/lib/utils';
-import { ChevronLeft, ChevronRight, RefreshCcw, X, BookOpen } from 'lucide-react';
+import { clsx } from 'clsx';
+import { twMerge } from 'tailwind-merge';
+import { RefreshCcw, X } from 'lucide-react';
 
-export interface BookPage {
-    title?: string;
-    content: React.ReactNode;
-    backContent?: React.ReactNode;
-    pageNumber: number;
-}
-
-export interface InteractiveBookProps {
-    coverImage: string;
-    bookTitle?: string;
-    bookAuthor?: string;
-    pages: BookPage[];
-    className?: string;
-    width?: number | string;
-    height?: number | string;
+function cn(...inputs) {
+    return twMerge(clsx(inputs));
 }
 
 export default function InteractiveBook({
@@ -52,7 +16,8 @@ export default function InteractiveBook({
     className,
     width = 350,
     height = 500,
-}: InteractiveBookProps) {
+    onCloseBook,
+}) {
     const [isOpen, setIsOpen] = useState(false);
     const [currentPageIndex, setCurrentPageIndex] = useState(-1);
     const [isHovering, setIsHovering] = useState(false);
@@ -62,43 +27,45 @@ export default function InteractiveBook({
 
     // Sync container shift with cover open
     const BOOK_OPEN_DURATION = 1.5;
-    const EASING: [number, number, number, number] = [0.25, 0, 0, 1]; // milder smoothing
+    const EASING = [0.25, 0, 0, 1]; // milder smoothing
 
     const handleOpenBook = () => setIsOpen(true);
 
-    const handleCloseBook = (e?: React.MouseEvent) => {
+    const handleCloseBook = (e) => {
         e?.stopPropagation();
         setIsOpen(false);
         setCurrentPageIndex(-1);
+        if (onCloseBook) {
+            // Wait for the cover close animation to mostly finish before unmounting modal
+            setTimeout(() => {
+                onCloseBook();
+            }, BOOK_OPEN_DURATION * 1000 - 300); // Trigger slightly before full close for seamless layout morph
+        }
     };
 
-    const nextPage = (e?: React.MouseEvent) => {
+    const nextPage = (e) => {
         e?.stopPropagation();
         if (currentPageIndex < pages.length - 1) {
             setCurrentPageIndex((prev) => prev + 1);
         }
     };
 
-    const prevPage = (e?: React.MouseEvent) => {
+    const prevPage = (e) => {
         e?.stopPropagation();
         if (currentPageIndex >= 0) {
             setCurrentPageIndex((prev) => prev - 1);
         }
     };
 
-    const restartBook = (e?: React.MouseEvent) => {
+    const restartBook = (e) => {
         e?.stopPropagation();
         setCurrentPageIndex(-1);
-    };
-
-    const handleSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setCurrentPageIndex(parseInt(e.target.value, 10));
     };
 
     // Keyboard navigation
     useEffect(() => {
         if (!isOpen) return;
-        const handleKeyDown = (e: KeyboardEvent) => {
+        const handleKeyDown = (e) => {
             if (e.key === 'ArrowRight') nextPage();
             if (e.key === 'ArrowLeft') prevPage();
             if (e.key === 'Escape') handleCloseBook();
@@ -109,17 +76,16 @@ export default function InteractiveBook({
 
     return (
         <div
-            className={cn("relative flex items-center justify-center perspective-[2000px]", className)}
+            className={cn("relative flex items-center justify-center", className)}
             style={{
-                width: typeof width === 'number' ? width * 3.5 : '100%',
-                height: typeof height === 'number' ? height + 100 : 'auto'
+                width: typeof width === 'number' ? width * 2.2 : '100%',
+                height: typeof height === 'number' ? height + 100 : 'auto',
+                perspective: '2000px'
             }}
         >
             <motion.div
-                className={cn(
-                    "relative preserve-3d"
-                )}
-                style={{ width, height }}
+                className="relative"
+                style={{ width, height, transformStyle: 'preserve-3d' }}
                 initial={{ x: 0 }}
                 animate={{ x: isOpen ? widthNum / 2 : 0 }}
                 transition={{ duration: BOOK_OPEN_DURATION, ease: EASING }}
@@ -144,8 +110,8 @@ export default function InteractiveBook({
                 >
                     {/* Front Face */}
                     <div
-                        className="absolute inset-0 w-full h-full backface-hidden rounded-r-md rounded-l-sm shadow-2xl cursor-pointer overflow-hidden group"
-                        style={{ transform: 'translateZ(0.5px)' }}
+                        className="absolute inset-0 w-full h-full rounded-r-md rounded-l-sm shadow-2xl cursor-pointer overflow-hidden group"
+                        style={{ backfaceVisibility: 'hidden', transform: 'translateZ(0.5px)' }}
                     >
                         {/* Image Background */}
                         <div
@@ -166,8 +132,8 @@ export default function InteractiveBook({
 
                     {/* Back Face (Inner Cover) */}
                     <div
-                        className="absolute inset-0 w-full h-full backface-hidden rounded-l-md rounded-r-sm bg-[#fdfbf7] rotate-y-180 flex flex-col p-8 border-r border-neutral-200 shadow-xl cursor-pointer hover:bg-[#fcfaf5] transition-colors"
-                        style={{ transform: 'rotateY(180deg) translateZ(0.5px)' }}
+                        className="absolute inset-0 w-full h-full rounded-l-md rounded-r-sm bg-[#fdfbf7] flex flex-col p-8 border-r border-neutral-200 shadow-xl cursor-pointer hover:bg-[#fcfaf5] transition-colors"
+                        style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg) translateZ(0.5px)' }}
                         onClick={(e) => {
                             e.stopPropagation();
                             prevPage();
@@ -185,8 +151,6 @@ export default function InteractiveBook({
                 <div className="absolute inset-0 w-full h-full z-0" style={{ transformStyle: 'preserve-3d' }}>
                     {pages.map((page, index) => {
                         const isFlipped = index <= currentPageIndex;
-                        // Stagger delays slightly for a realistic "whip" effect if user clicks fast, 
-                        // but mostly we want instant feedback with smooth transition.
 
                         return (
                             <motion.div
@@ -205,14 +169,14 @@ export default function InteractiveBook({
                             >
                                 {/* Front Face (Right Side) */}
                                 <div
-                                    className="absolute inset-0 w-full h-full backface-hidden p-8 flex flex-col bg-[#fdfbf7] cursor-pointer hover:bg-[#fcfaf5] transition-colors"
-                                    style={{ transform: 'translateZ(0.5px)' }}
+                                    className="absolute inset-0 w-full h-full p-8 flex flex-col bg-[#fdfbf7] cursor-pointer hover:bg-[#fcfaf5] transition-colors"
+                                    style={{ backfaceVisibility: 'hidden', transform: 'translateZ(0.5px)' }}
                                     onClick={(e) => {
                                         e.stopPropagation();
                                         nextPage();
                                     }}
                                 >
-                                    <div className="flex-1">
+                                    <div className="flex-1 relative z-10">
                                         <div className="text-xs text-neutral-400 text-right mb-4 font-sans tracking-wider">
                                             {page.pageNumber * 2 - 1}
                                         </div>
@@ -225,21 +189,21 @@ export default function InteractiveBook({
                                             {page.content}
                                         </div>
                                     </div>
-                                    <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-black/5 to-transparent pointer-events-none mix-blend-multiply" />
+                                    <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-black/5 to-transparent pointer-events-none mix-blend-multiply z-0" />
                                 </div>
 
                                 {/* Back Face (Left Side) */}
                                 <div
-                                    className="absolute inset-0 w-full h-full backface-hidden rotate-y-180 bg-[#fdfbf7] border-r border-neutral-200 overflow-hidden p-8 flex flex-col cursor-pointer hover:bg-[#fcfaf5] transition-colors"
-                                    style={{ transform: 'rotateY(180deg) translateZ(0.5px)' }}
+                                    className="absolute inset-0 w-full h-full bg-[#fdfbf7] border-r border-neutral-200 overflow-hidden p-8 flex flex-col cursor-pointer hover:bg-[#fcfaf5] transition-colors"
+                                    style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg) translateZ(0.5px)' }}
                                     onClick={(e) => {
                                         e.stopPropagation();
                                         prevPage();
                                     }}
                                 >
-                                    <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-black/5 to-transparent pointer-events-none mix-blend-multiply" />
+                                    <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-black/5 to-transparent pointer-events-none mix-blend-multiply z-0" />
 
-                                    <div className="flex-1 overflow-hidden">
+                                    <div className="flex-1 overflow-hidden relative z-10">
                                         <div className="text-xs text-neutral-400 text-left mb-4 font-sans tracking-wider">
                                             {page.pageNumber * 2}
                                         </div>
@@ -278,9 +242,6 @@ export default function InteractiveBook({
                         </div>
                     </div>
                 </div>
-
-                {/* Controls Bar Removed */}
-
             </motion.div>
 
             {/* Side Navigation Arrows */}
@@ -293,7 +254,7 @@ export default function InteractiveBook({
                             animate={{ opacity: 1, scale: 1 }}
                             exit={{ opacity: 0, scale: 0.8 }}
                             onClick={handleCloseBook}
-                            className="absolute top-8 right-8 p-2 rounded-full bg-white/50 dark:bg-neutral-800/50 hover:bg-white dark:hover:bg-neutral-800 border border-transparent hover:border-neutral-200 dark:hover:border-neutral-700 backdrop-blur-sm text-neutral-800 dark:text-neutral-100 z-[1000] transition-all hover:scale-110 shadow-sm hover:shadow-xl"
+                            className="absolute top-0 right-0 md:-right-12 md:-top-12 p-2 rounded-full bg-white/50 dark:bg-neutral-800/50 hover:bg-white dark:hover:bg-neutral-800 border border-transparent hover:border-neutral-200 dark:hover:border-neutral-700 backdrop-blur-sm text-neutral-800 dark:text-neutral-100 z-[1000] transition-all hover:scale-110 shadow-sm hover:shadow-xl"
                         >
                             <X size={24} />
                         </motion.button>
@@ -307,7 +268,7 @@ export default function InteractiveBook({
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 1, duration: 1 }}
-                    className="absolute bottom-4 text-neutral-500 dark:text-neutral-400 text-sm font-medium tracking-widest uppercase cursor-pointer z-50 hover:text-neutral-700 dark:hover:text-neutral-200 transition-colors"
+                    className="absolute bottom-0 text-neutral-500 dark:text-neutral-400 text-sm font-medium tracking-widest uppercase cursor-pointer z-50 hover:text-neutral-700 dark:hover:text-neutral-200 transition-colors"
                     onClick={handleOpenBook}
                 >
                     Click to Open
@@ -316,86 +277,3 @@ export default function InteractiveBook({
         </div>
     );
 }
-
-
-layout of project :
-
-"use client";
-
-import React, { useState } from "react";
-import { motion } from "framer-motion";
-import { cn } from "@/lib/utils";
-
-export interface CollageImage {
-  src: string;
-  x: number;
-  y: number;
-  rotate: number;
-  alt?: string;
-}
-
-export interface ImageCollageProps extends React.HTMLAttributes<HTMLDivElement> {
-  images: CollageImage[];
-  containerClassName?: string;
-  imageClassName?: string;
-}
-
-export const ImageCollage = React.forwardRef<HTMLDivElement, ImageCollageProps>(
-  (
-    { images, className, containerClassName, imageClassName, ...props },
-    ref
-  ) => {
-    const [isOrganized, setIsOrganized] = useState(false);
-
-    const toggleLayout = () => {
-      setIsOrganized((prev) => !prev);
-    };
-
-    return (
-      <div
-        ref={ref}
-        className={cn(
-          "flex flex-col items-center justify-center gap-12 select-none w-full min-h-[400px] cursor-pointer",
-          className
-        )}
-        onClick={toggleLayout}
-        {...props}
-      >
-        <div className="text-zinc-800 dark:text-zinc-200 text-xl font-medium tracking-tight">
-          Click anywhere to toggle the layout
-        </div>
-        
-        <motion.div className={cn("h-40 flex items-center justify-center", containerClassName)}>
-          {images.map((img, i) => (
-            <motion.div
-              key={i}
-              className={cn(
-                "w-24 sm:w-32 shrink-0 aspect-[4/5]",
-                !isOrganized && "shadow-lg",
-                imageClassName
-              )}
-              initial={{ opacity: 0, scale: 0.7 }}
-              transition={{ type: "spring", bounce: 0.6 }}
-              animate={{
-                opacity: 1,
-                scale: 1,
-                x: isOrganized ? 0 : img.x,
-                y: isOrganized ? 0 : img.y,
-                rotate: isOrganized ? 0 : img.rotate,
-                zIndex: isOrganized ? 1 : i,
-              }}
-            >
-              <img
-                src={img.src}
-                alt={img.alt || `Collage image ${i}`}
-                className="w-full h-full object-cover"
-              />
-            </motion.div>
-          ))}
-        </motion.div>
-      </div>
-    );
-  }
-);
-
-ImageCollage.displayName = "ImageCollage";
