@@ -414,7 +414,7 @@ export const projects = [
     featured: false,
     visualStyle: "split",
 
-    image: ""
+    image: "/images/ai-doctor.jpg"
   },
   {
     id: 8,
