@@ -1,6 +1,6 @@
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { useMousePosition } from '../hooks/useMousePosition';
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 
 const floatingLabels = [
   { name: "React", z: 50, speed: 0.05, angle: 0 },
@@ -23,6 +23,13 @@ export default function ProfileCard() {
   const springConfig = { stiffness: 100, damping: 30, mass: 1 };
   const smoothRotateX = useSpring(rotateX, springConfig);
   const smoothRotateY = useSpring(rotateY, springConfig);
+
+  const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1200);
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -131,8 +138,8 @@ export default function ProfileCard() {
                 style={{
                   originX: 0,
                   originY: 0,
-                  x: Math.cos(label.angle * (Math.PI / 180)) * 140,
-                  y: Math.sin(label.angle * (Math.PI / 180)) * 140
+                  x: Math.cos(label.angle * (Math.PI / 180)) * (windowWidth < 640 ? 100 : 140),
+                  y: Math.sin(label.angle * (Math.PI / 180)) * (windowWidth < 640 ? 100 : 140)
                 }}
               >
                 <div 

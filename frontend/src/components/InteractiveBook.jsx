@@ -113,16 +113,17 @@ export default function InteractiveBook({
                         className="absolute inset-0 w-full h-full rounded-r-md rounded-l-sm shadow-2xl cursor-pointer overflow-hidden group"
                         style={{ backfaceVisibility: 'hidden', transform: 'translateZ(0.5px)' }}
                     >
-                        {/* Image Background */}
-                        <div
-                            className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
-                            style={{ backgroundImage: `url(${coverImage})` }}
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-
-                        <div className="absolute bottom-4 left-3 right-3 text-white text-left">
-                            <h1 className="text-sm font-serif font-bold tracking-wide mb-1 drop-shadow-md leading-tight">{bookTitle}</h1>
-                            <p className="text-[8px] font-sans tracking-widest opacity-90 uppercase border-t border-white/30 pt-1 inline-block">{bookAuthor}</p>
+                        {/* Simple Dark Theme Cover */}
+                        <div className="absolute inset-0 bg-neutral-900 flex flex-col items-center justify-center p-6 text-center border-l-2 border-neutral-700/50">
+                            <h1 className="text-3xl font-sans font-black text-white tracking-tight uppercase leading-none drop-shadow-xl mb-4">
+                                {bookTitle}
+                            </h1>
+                            <div className="w-12 h-1 bg-white mb-6"></div>
+                            {bookAuthor && (
+                                <p className="text-xs font-sans tracking-[0.2em] text-neutral-400 uppercase font-bold">
+                                    {bookAuthor}
+                                </p>
+                            )}
                         </div>
 
                         {/* Spine Highlight */}
@@ -176,7 +177,7 @@ export default function InteractiveBook({
                                         nextPage();
                                     }}
                                 >
-                                    <div className="flex-1 relative z-10">
+                                    <div className="flex-1 relative z-10 overflow-y-auto scrollbar-thin scrollbar-thumb-neutral-300 scrollbar-track-transparent pr-2 pb-4">
                                         <div className="text-xs text-neutral-400 text-right mb-4 font-sans tracking-wider">
                                             {page.pageNumber * 2 - 1}
                                         </div>

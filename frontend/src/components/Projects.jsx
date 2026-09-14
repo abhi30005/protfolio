@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { projects } from '../data/projects';
 import { PerspectiveCarousel } from './PerspectiveCarousel';
@@ -7,6 +7,30 @@ import { FaGithub } from 'react-icons/fa';
 import InteractiveBook from './InteractiveBook';
 
 function ProjectBookModal({ project, onClose }) {
+  const [bookDimensions, setBookDimensions] = useState({ width: 320, height: 460 });
+
+  useEffect(() => {
+    const updateDimensions = () => {
+      const width = window.innerWidth;
+      if (width < 640) {
+        // Mobile: book open width is width * 2.2. So half page width should be ~ 40% of screen.
+        // Let's make it a bit smaller to fit margins
+        const newWidth = Math.floor(width * 0.4);
+        setBookDimensions({ width: newWidth, height: Math.floor(newWidth * 1.45) });
+      } else if (width < 768) {
+        // Tablet portrait
+        setBookDimensions({ width: 250, height: 360 });
+      } else {
+        // Desktop
+        setBookDimensions({ width: 320, height: 460 });
+      }
+    };
+
+    updateDimensions();
+    window.addEventListener('resize', updateDimensions);
+    return () => window.removeEventListener('resize', updateDimensions);
+  }, []);
+
   if (!project) return null;
 
   const pages = [
@@ -14,37 +38,50 @@ function ProjectBookModal({ project, onClose }) {
       pageNumber: 1,
       title: "Overview",
       content: (
-        <div className="flex flex-col gap-4">
-          <p className="text-neutral-600 font-medium">{project.shortDescription}</p>
-          <div>
-            <h4 className="font-bold text-neutral-800 text-sm tracking-widest uppercase mb-2">The Problem</h4>
-            <p className="text-neutral-600 text-sm leading-relaxed">{project.problem}</p>
-          </div>
-        </div>
-      ),
-      backContent: (
-        <div className="flex flex-col gap-4 h-full justify-center">
-            <h4 className="font-bold text-neutral-800 text-sm tracking-widest uppercase mb-2">The Solution</h4>
-            <p className="text-neutral-600 text-sm leading-relaxed">{project.solution}</p>
+        <div className="flex flex-col gap-6">
+          <p className="text-neutral-600 font-medium leading-relaxed">{project.shortDescription}</p>
         </div>
       )
     },
     {
       pageNumber: 2,
-      title: "Technology",
+      title: "The Problem",
       content: (
-        <div className="flex flex-wrap gap-2">
-          {project.technologies.map(tech => (
-            <span key={tech} className="px-3 py-1 bg-neutral-100 border border-neutral-200 rounded-full text-xs font-bold text-neutral-700 tracking-wider">
-              {tech}
-            </span>
-          ))}
+        <div className="flex flex-col gap-6">
+          <p className="text-neutral-600 text-sm leading-relaxed">{project.problem}</p>
         </div>
-      ),
-      backContent: (
-        <div className="flex flex-col gap-4">
-          <h4 className="font-bold text-neutral-800 text-sm tracking-widest uppercase mb-2">Key Features</h4>
-          <ul className="text-sm text-neutral-600 space-y-2 list-disc pl-4">
+      )
+    },
+    {
+      pageNumber: 3,
+      title: "The Solution",
+      content: (
+        <div className="flex flex-col gap-6">
+          <p className="text-neutral-600 text-sm leading-relaxed">{project.solution}</p>
+        </div>
+      )
+    },
+    {
+      pageNumber: 4,
+      title: "Tech Stack",
+      content: (
+        <div className="flex flex-col gap-6">
+          <div className="flex flex-wrap gap-2">
+            {project.technologies.map(tech => (
+              <span key={tech} className="px-2 py-1 bg-neutral-100 border border-neutral-200 rounded text-[10px] font-bold text-neutral-700 tracking-wider">
+                {tech}
+              </span>
+            ))}
+          </div>
+        </div>
+      )
+    },
+    {
+      pageNumber: 5,
+      title: "Key Features",
+      content: (
+        <div className="flex flex-col gap-6">
+          <ul className="text-sm text-neutral-600 space-y-1.5 list-disc pl-4 marker:text-neutral-300">
             {project.keyFeatures.slice(0, 6).map((feat, i) => <li key={i}>{feat}</li>)}
             {project.keyFeatures.length > 6 && <li>And more...</li>}
           </ul>
@@ -52,42 +89,55 @@ function ProjectBookModal({ project, onClose }) {
       )
     },
     {
-      pageNumber: 3,
-      title: "Workflow",
+      pageNumber: 6,
+      title: "Architecture / Flow",
       content: (
-        <div className="flex flex-col gap-4 h-full">
-          <h4 className="font-bold text-neutral-800 text-sm tracking-widest uppercase mb-2">Architecture / Flow</h4>
-          <p className="text-neutral-600 text-sm leading-relaxed italic border-l-2 border-neutral-300 pl-4">
-            {project.projectFlow}
-          </p>
+        <div className="flex flex-col gap-6">
+          <div className="flex flex-col items-center gap-1 w-full text-neutral-600 text-sm italic">
+            {project.projectFlow.split(/→|->/).map((step, index, arr) => (
+              <React.Fragment key={index}>
+                <div className="w-full bg-neutral-50 border border-neutral-200 rounded px-3 py-2 text-center shadow-sm">
+                  {step.trim()}
+                </div>
+                {index < arr.length - 1 && (
+                  <div className="text-neutral-400 text-lg">
+                    ↓
+                  </div>
+                )}
+              </React.Fragment>
+            ))}
+          </div>
           {project.name.includes("PreSales AI Agent V2") && (
-              <div className="mt-4 px-3 py-1 bg-amber-100 text-amber-800 border border-amber-200 rounded font-bold text-xs inline-block text-center uppercase tracking-widest">
-                In Progress
-              </div>
+            <div className="mt-3 px-2 py-1 bg-amber-100 text-amber-800 border border-amber-200 rounded font-bold text-[10px] inline-block text-center uppercase tracking-widest">
+              In Progress
+            </div>
           )}
         </div>
-      ),
-      backContent: (
-        <div className="flex flex-col gap-4 h-full">
-          <h4 className="font-bold text-neutral-800 text-sm tracking-widest uppercase mb-2">Future Scope</h4>
-          <ul className="text-sm text-neutral-600 space-y-2 list-disc pl-4">
-            {project.futureScope.slice(0, 5).map((scope, i) => <li key={i}>{scope}</li>)}
+      )
+    },
+    {
+      pageNumber: 7,
+      title: "Future Scope",
+      content: (
+        <div className="flex flex-col gap-6">
+          <ul className="text-sm text-neutral-600 space-y-1.5 list-disc pl-4 marker:text-neutral-300">
+            {project.futureScope.slice(0, 4).map((scope, i) => <li key={i}>{scope}</li>)}
           </ul>
         </div>
       )
     },
     {
-      pageNumber: 4,
+      pageNumber: 8,
       title: "Links",
       content: (
-        <div className="flex flex-col gap-4 h-full justify-center items-center">
+        <div className="flex flex-col gap-4 h-full justify-center items-center py-12">
           {project.liveUrl && (
-            <a href={project.liveUrl} target="_blank" rel="noreferrer" className="w-full text-center px-6 py-3 bg-neutral-900 text-white rounded-full font-bold text-sm tracking-widest uppercase hover:scale-105 transition-transform">
+            <a href={project.liveUrl} target="_blank" rel="noreferrer" className="w-full max-w-[200px] text-center px-4 py-3 bg-neutral-900 text-white rounded-md font-bold text-xs tracking-widest uppercase hover:scale-105 transition-transform shadow-md">
               Explore Live
             </a>
           )}
           {project.githubUrl && (
-            <a href={project.githubUrl} target="_blank" rel="noreferrer" className="w-full text-center px-6 py-3 bg-transparent border-2 border-neutral-200 text-neutral-800 rounded-full font-bold text-sm tracking-widest uppercase hover:bg-neutral-100 transition-colors">
+            <a href={project.githubUrl} target="_blank" rel="noreferrer" className="w-full max-w-[200px] text-center px-4 py-3 bg-transparent border-2 border-neutral-200 text-neutral-800 rounded-md font-bold text-xs tracking-widest uppercase hover:bg-neutral-100 transition-colors">
               View GitHub
             </a>
           )}
@@ -126,8 +176,8 @@ function ProjectBookModal({ project, onClose }) {
             bookTitle={project.name}
             bookAuthor={project.category}
             pages={pages}
-            width={320}
-            height={460}
+            width={bookDimensions.width}
+            height={bookDimensions.height}
             onCloseBook={onClose}
           />
         </motion.div>
