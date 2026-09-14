@@ -2,14 +2,7 @@ import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { useMousePosition } from '../hooks/useMousePosition';
 import { useRef, useEffect, useState } from 'react';
 
-const floatingLabels = [
-  { name: "React", z: 50, speed: 0.05, angle: 0 },
-  { name: "AI/ML", z: 120, speed: 0.08, angle: 60 },
-  { name: "FastAPI", z: 80, speed: 0.03, angle: 120 },
-  { name: "Python", z: 150, speed: 0.06, angle: 180 },
-  { name: "LangChain", z: 90, speed: 0.04, angle: 240 },
-  { name: "UI/UX", z: 60, speed: 0.07, angle: 300 }
-];
+
 
 export default function ProfileCard() {
   const containerRef = useRef(null);
@@ -84,74 +77,58 @@ export default function ProfileCard() {
           transition={{ duration: 60, ease: "linear", repeat: Infinity }}
         />
 
-        {/* Profile Image Core */}
+        {/* Modern Animated Core replacing the basic profile pic */}
         <div 
-          className="w-full h-full rounded-full p-2 bg-gradient-to-b from-white/10 to-transparent backdrop-blur-xl border border-white/20 shadow-2xl overflow-hidden"
+          className="w-full h-full rounded-full p-2 bg-gradient-to-b from-white/10 to-transparent backdrop-blur-2xl border border-white/20 shadow-2xl overflow-hidden"
           style={{ transform: "translateZ(30px)" }}
           data-cursor="image"
         >
-          <div className="w-full h-full rounded-full overflow-hidden bg-brand-surface relative group">
-            <div className="absolute inset-0 bg-brand-indigo/20 mix-blend-overlay opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-            <img 
-              src="https://ui-avatars.com/api/?name=Abhijit+Bhunia&background=0D8ABC&color=fff&size=512" 
-              alt="Abhijit Bhunia"
-              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-              onError={(e) => {
-                e.target.style.display = 'none';
-                e.target.nextSibling.style.display = 'flex';
+          <div className="w-full h-full rounded-full overflow-hidden bg-brand-bg relative flex items-center justify-center group">
+            
+            {/* Animated Grid Background */}
+            <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:20px_20px] [mask-image:radial-gradient(ellipse_at_center,black_50%,transparent_80%)] opacity-50" />
+            
+            {/* Inner Glowing Orb */}
+            <motion.div 
+              animate={{ 
+                scale: [1, 1.2, 1],
+                rotate: [0, 90, 180, 270, 360]
               }}
+              transition={{ 
+                duration: 15,
+                repeat: Infinity,
+                ease: "linear" 
+              }}
+              className="absolute w-[150%] h-[150%] bg-[conic-gradient(from_0deg_at_50%_50%,#4f46e5_0%,#06b6d4_50%,#4f46e5_100%)] opacity-30 blur-2xl group-hover:opacity-60 transition-opacity duration-700"
             />
-            <div className="hidden w-full h-full items-center justify-center bg-gradient-to-br from-brand-indigo to-brand-cyan text-white font-black text-6xl">
+            
+            {/* Geometric Center Shape */}
+            <motion.div 
+              className="relative z-10 w-24 h-24 md:w-32 md:h-32 border border-white/30 bg-white/5 backdrop-blur-md flex items-center justify-center overflow-hidden"
+              style={{ borderRadius: '30%' }}
+              animate={{ rotate: [0, 90, 180, 270, 360] }}
+              transition={{ duration: 20, ease: "linear", repeat: Infinity }}
+            >
+              <div className="absolute inset-0 bg-gradient-to-tr from-brand-indigo/40 to-brand-cyan/40 opacity-50" />
+            </motion.div>
+
+            {/* Inner Counter-Rotating Shape */}
+            <motion.div 
+              className="absolute z-10 w-20 h-20 md:w-28 md:h-28 border border-white/20 bg-transparent flex items-center justify-center overflow-hidden"
+              style={{ borderRadius: '40%' }}
+              animate={{ rotate: [360, 270, 180, 90, 0] }}
+              transition={{ duration: 15, ease: "linear", repeat: Infinity }}
+            />
+
+            {/* Static Initial Label */}
+            <div className="absolute z-20 font-black text-5xl tracking-tighter text-transparent bg-clip-text bg-gradient-to-br from-white to-white/50 select-none group-hover:scale-110 transition-transform duration-500">
               AB
             </div>
+            
           </div>
         </div>
 
-        {/* Orbiting Interactive Labels */}
-        {floatingLabels.map((label, index) => {
-          // Subtle mouse-driven parallax for each label
-          const labelX = useTransform(smoothRotateY, [-15, 15], [-label.speed * 400, label.speed * 400]);
-          const labelY = useTransform(smoothRotateX, [-15, 15], [-label.speed * 400, label.speed * 400]);
-          
-          return (
-            <motion.div
-              key={label.name}
-              className="absolute top-1/2 left-1/2 pointer-events-none"
-              style={{
-                x: labelX,
-                y: labelY,
-                translateZ: label.z,
-                rotateX: useTransform(smoothRotateX, x => -x), // counter-rotate to face camera
-                rotateY: useTransform(smoothRotateY, y => -y)
-              }}
-            >
-              <motion.div
-                animate={{ 
-                  rotate: [0, 360],
-                  scale: [1, 1.1, 1] 
-                }}
-                transition={{ 
-                  rotate: { duration: 20 / label.speed, ease: "linear", repeat: Infinity },
-                  scale: { duration: 4, ease: "easeInOut", repeat: Infinity, delay: index * 0.5 }
-                }}
-                className="absolute"
-                style={{
-                  originX: 0,
-                  originY: 0,
-                  x: Math.cos(label.angle * (Math.PI / 180)) * (windowWidth < 640 ? 100 : 140),
-                  y: Math.sin(label.angle * (Math.PI / 180)) * (windowWidth < 640 ? 100 : 140)
-                }}
-              >
-                <div 
-                  className="glass px-4 py-2 rounded-full text-xs font-bold text-white whitespace-nowrap border border-white/20 shadow-[0_0_15px_rgba(255,255,255,0.1)] pointer-events-auto transition-colors hover:bg-white/20"
-                  data-cursor="project"
-                >
-                  {label.name}
-                </div>
-              </motion.div>
-            </motion.div>
-          );
-        })}
+
       </motion.div>
     </div>
   );

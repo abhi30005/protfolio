@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import { ArrowRight, FileText } from 'lucide-react';
 import { profile } from '../data/profile';
 import Magnetic from './Magnetic';
-import ProfileCard from './ProfileCard';
+import HeroVisual from './HeroVisual';
 
 export default function Hero() {
   return (
@@ -80,14 +80,14 @@ export default function Hero() {
           </div>
         </motion.div>
 
-        {/* Right Content - Interactive 3D Profile Card */}
+        {/* Right Content - Animated Code Card */}
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1.2, ease: [0.76, 0, 0.24, 1], delay: 0.2 }}
           className="order-1 lg:order-2 flex justify-center w-full"
         >
-          <ProfileCard />
+          <HeroVisual />
         </motion.div>
 
       </div>
