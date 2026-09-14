@@ -51,7 +51,7 @@ export default function AIAssistant() {
     try {
       // Use production Render URL if built for production, otherwise use env or localhost
       const apiUrl = import.meta.env.PROD 
-        ? 'https://protfolio-41j9.onrender.com' 
+        ? 'https://protfolio-2i8c.onrender.com' 
         : (import.meta.env.VITE_API_URL || 'http://localhost:8000');
       const response = await fetch(`${apiUrl}/api/chat`, {
         method: 'POST',
