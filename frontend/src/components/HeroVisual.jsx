@@ -30,10 +30,10 @@ export default function HeroVisual() {
         animate={{
           opacity: showAB ? 0.4 : 0,
           background: [
-            'conic-gradient(from 0deg at 50% 50%, #f97316 0%, #f43f5e 25%, #fbbf24 50%, #f97316 75%, #f43f5e 100%)',
-            'conic-gradient(from 90deg at 50% 50%, #f43f5e 0%, #fbbf24 25%, #f97316 50%, #f43f5e 75%, #fbbf24 100%)',
-            'conic-gradient(from 180deg at 50% 50%, #fbbf24 0%, #f97316 25%, #f43f5e 50%, #fbbf24 75%, #f97316 100%)',
-            'conic-gradient(from 360deg at 50% 50%, #f97316 0%, #f43f5e 25%, #fbbf24 50%, #f97316 75%, #f43f5e 100%)',
+            'conic-gradient(from 0deg at 50% 50%, #0f172a 0%, #0284c7 25%, #4f46e5 50%, #0f172a 75%, #0284c7 100%)',
+            'conic-gradient(from 90deg at 50% 50%, #0284c7 0%, #4f46e5 25%, #0f172a 50%, #0284c7 75%, #4f46e5 100%)',
+            'conic-gradient(from 180deg at 50% 50%, #4f46e5 0%, #0f172a 25%, #0284c7 50%, #4f46e5 75%, #0f172a 100%)',
+            'conic-gradient(from 360deg at 50% 50%, #0f172a 0%, #0284c7 25%, #4f46e5 50%, #0f172a 75%, #0284c7 100%)',
           ],
         }}
         transition={{ opacity: { duration: 1 }, background: { duration: 6, repeat: Infinity, ease: 'linear' } }}
@@ -60,7 +60,7 @@ export default function HeroVisual() {
               initial={{ opacity: 0 }}
               animate={{ rotate: 360, opacity: 1 }}
               transition={{ rotate: { duration: 30, repeat: Infinity, ease: 'linear' }, opacity: { duration: 1 } }}
-              className="absolute w-[80%] h-[80%] rounded-full border border-dashed border-orange-500/20"
+              className="absolute w-[80%] h-[80%] rounded-full border border-dashed border-sky-500/20"
             />
           </>
         )}
@@ -80,13 +80,13 @@ export default function HeroVisual() {
             style={{ height: `${fillPercent}%`, transition: 'height 0.05s linear' }}
           >
             {/* Gradient fill color */}
-            <div className="absolute inset-0 bg-gradient-to-t from-orange-600 via-rose-500 to-amber-400 opacity-80" />
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-indigo-950 to-sky-700 opacity-90" />
 
             {/* Wave effect on top of the fill */}
             <div className="absolute -top-3 left-0 right-0 h-6 overflow-hidden">
               <svg viewBox="0 0 1200 60" preserveAspectRatio="none" className="w-[200%] h-full" style={{ animation: 'waveSlide 3s linear infinite' }}>
-                <path d="M0,30 C150,10 350,50 600,30 C850,10 1050,50 1200,30 L1200,60 L0,60 Z" fill="rgba(249,115,22,0.6)" />
-                <path d="M0,35 C200,15 400,55 600,35 C800,15 1000,55 1200,35 L1200,60 L0,60 Z" fill="rgba(244,63,94,0.4)" />
+                <path d="M0,30 C150,10 350,50 600,30 C850,10 1050,50 1200,30 L1200,60 L0,60 Z" fill="rgba(14, 165, 233, 0.4)" />
+                <path d="M0,35 C200,15 400,55 600,35 C800,15 1000,55 1200,35 L1200,60 L0,60 Z" fill="rgba(79, 70, 229, 0.3)" />
               </svg>
             </div>
 
@@ -102,7 +102,7 @@ export default function HeroVisual() {
         <motion.div
           animate={{ opacity: showAB ? 1 : 0 }}
           transition={{ duration: 1 }}
-          className="absolute w-40 h-40 rounded-full bg-orange-500/15 blur-2xl z-10"
+          className="absolute w-40 h-40 rounded-full bg-sky-500/10 blur-2xl z-10"
         />
 
         {/* Percentage counter → AB reveal */}
@@ -145,7 +145,7 @@ export default function HeroVisual() {
               transition={{ opacity: { duration: 0.5 }, rotate: { duration: 8, repeat: Infinity, ease: 'linear' } }}
               className="absolute inset-0 rounded-full z-30"
               style={{
-                background: 'conic-gradient(from 0deg, #f97316, #f43f5e, #fbbf24, #f97316)',
+                background: 'conic-gradient(from 0deg, #0f172a, #0284c7, #4f46e5, #0f172a)',
                 mask: 'radial-gradient(farthest-side, transparent calc(100% - 3px), black calc(100% - 3px))',
                 WebkitMask: 'radial-gradient(farthest-side, transparent calc(100% - 3px), black calc(100% - 3px))',
               }}
