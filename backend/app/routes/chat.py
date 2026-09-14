@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
 from app.schemas.chat import ChatRequest, ChatResponse
-from app.services.openai_service import generate_ai_response
+from app.services.groq_service import generate_ai_response
 from app.services.fallback_service import generate_fallback_response
 from app.config import settings
 
@@ -9,7 +9,7 @@ router = APIRouter()
 @router.post("/chat", response_model=ChatResponse)
 async def chat_endpoint(request: ChatRequest):
     # If API key is missing entirely, go straight to fallback
-    if not settings.OPENAI_API_KEY or settings.OPENAI_API_KEY.strip() == "":
+    if not settings.GROQ_API_KEY or settings.GROQ_API_KEY.strip() == "":
         fallback_data = generate_fallback_response(request.message)
         return ChatResponse(
             success=True,
@@ -32,8 +32,8 @@ async def chat_endpoint(request: ChatRequest):
         )
 
     except Exception as e:
-        print(f"Failed to connect to OpenAI: {e}")
-        # When OpenAI fails (quota exceeded, bad key, network issue), use the local knowledge base fallback!
+        print(f"Failed to connect to Groq: {e}")
+        # When Groq fails (quota exceeded, bad key, network issue), use the local knowledge base fallback!
         fallback_data = generate_fallback_response(request.message)
         return ChatResponse(
             success=True,

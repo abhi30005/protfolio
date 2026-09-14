@@ -1,9 +1,9 @@
 import json
-from openai import AsyncOpenAI
+from groq import AsyncGroq
 from app.config import settings
 from app.data.knowledge import PORTFOLIO_KNOWLEDGE
 
-client = AsyncOpenAI(api_key=settings.OPENAI_API_KEY)
+client = AsyncGroq(api_key=settings.GROQ_API_KEY)
 
 SYSTEM_PROMPT = f"""You are Abhijit's AI Portfolio Assistant.
 
@@ -55,7 +55,7 @@ async def generate_ai_response(user_message: str, conversation_history: list = N
 
     try:
         response = await client.chat.completions.create(
-            model=settings.OPENAI_MODEL,
+            model=settings.GROQ_MODEL,
             messages=messages,
             response_format={ "type": "json_object" },
             temperature=0.7
@@ -64,5 +64,5 @@ async def generate_ai_response(user_message: str, conversation_history: list = N
         return json.loads(content)
     except Exception as e:
         # We don't expose raw errors to the frontend
-        print(f"OpenAI API Error: {str(e)}")
+        print(f"Groq API Error: {str(e)}")
         raise Exception("AI service unavailable")
