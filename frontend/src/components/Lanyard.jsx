@@ -31,6 +31,7 @@ export default function Lanyard({
   backImage = null,
   imageFit = 'cover',
   lanyardImage = null,
+  avatarImage = null,
   lanyardWidth = 1
 }) {
   const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' && window.innerWidth < 768);
@@ -57,6 +58,7 @@ export default function Lanyard({
             backImage={backImage}
             imageFit={imageFit}
             lanyardImage={lanyardImage}
+            avatarImage={avatarImage}
             lanyardWidth={lanyardWidth}
           />
         </Physics>
@@ -103,6 +105,7 @@ function Band({
   backImage = null,
   imageFit = 'cover',
   lanyardImage = null,
+  avatarImage = null,
   lanyardWidth = 1
 }) {
   const band = useRef(),
@@ -121,6 +124,7 @@ function Band({
 
   const frontTex = useTexture(frontImage || BLANK_PIXEL);
   const backTex = useTexture(backImage || BLANK_PIXEL);
+  const avatarTex = useTexture(avatarImage || BLANK_PIXEL);
 
   const cardMap = useMemo(() => {
     const baseMap = materials.base.map;
@@ -175,7 +179,40 @@ function Band({
       ctx.restore();
     };
 
-    if (frontImage && frontTex.image) drawFitted(frontTex.image, FRONT_UV_RECT);
+    if (frontImage && frontTex.image) {
+      drawFitted(frontTex.image, FRONT_UV_RECT);
+      
+      // Draw the circular avatar on the front side if provided
+      if (avatarImage && avatarTex.image) {
+        ctx.save();
+        // The FRONT_UV_RECT is x=0, y=0, w=0.5, h=1
+        const rx = FRONT_UV_RECT.x * W;
+        const ry = FRONT_UV_RECT.y * H;
+        const rw = FRONT_UV_RECT.w * W;
+        const rh = FRONT_UV_RECT.h * H;
+        
+        // Calculate the scale from the 250x580 SVG to the Canvas UV rect
+        const scaleX = rw / 250;
+        const scaleY = rh / 580;
+        
+        // Avatar center in SVG coordinates (with translate y=90 applied)
+        const svgCx = 133;
+        const svgCy = 120 + 90; // 210
+        const svgR = 38;
+        
+        const cx = rx + (svgCx * scaleX);
+        const cy = ry + (svgCy * scaleY);
+        // Use average scale for radius to keep it perfectly circular
+        const r = svgR * ((scaleX + scaleY) / 2);
+        
+        ctx.beginPath();
+        ctx.arc(cx, cy, r, 0, Math.PI * 2);
+        ctx.clip();
+        
+        ctx.drawImage(avatarTex.image, cx - r, cy - r, r * 2, r * 2);
+        ctx.restore();
+      }
+    }
     if (backImage && backTex.image) drawFitted(backTex.image, BACK_UV_RECT);
 
     const composite = new THREE.CanvasTexture(canvas);
@@ -184,7 +221,7 @@ function Band({
     composite.anisotropy = 16;
     composite.needsUpdate = true;
     return composite;
-  }, [frontImage, backImage, imageFit, frontTex, backTex, materials.base.map]);
+  }, [frontImage, backImage, imageFit, frontTex, backTex, avatarTex, avatarImage, materials.base.map]);
 
   const [curve] = useState(
     () =>
@@ -288,7 +325,7 @@ function Band({
           resolution={isMobile ? [1000, 2000] : [1000, 1000]}
           useMap={true}
           map={texture}
-          repeat={[-1, 1]}
+          repeat={[-1, 80]}
           lineWidth={lanyardWidth}
         />
       </mesh>
