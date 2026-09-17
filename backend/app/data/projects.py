@@ -71,39 +71,57 @@ PROJECTS = [
     },
 
     {
-        "name": "AI Resume Builder",
-        "category": "Full Stack/AI",
-        "description": "AI-assisted resume builder that generates professional, job-focused resumes from user-provided information.",
-        "problem": "Creating professional resumes requires significant time and effort, especially when tailoring content for different job descriptions.",
-        "solution": "Developed an AI-powered resume generation platform that optimizes resume content, suggests impactful bullet points, and produces professionally formatted documents.",
-        "technologies": [
-            "React",
-            "Node.js",
-            "Express",
-            "OpenAI"
-        ],
-        "workflow": [
-            "User enters profile and career details",
-            "Job description is analyzed",
-            "AI optimizes resume content",
-            "User reviews and edits the resume",
-            "Resume is exported as PDF"
-        ],
-        "learning": [
-            "PDF generation",
-            "Prompt engineering",
-            "Structured AI output",
-            "Dynamic document generation"
-        ],
-        "future_scope": [
-            "ATS compatibility scoring",
-            "Job-specific resume optimization",
-            "AI cover letter generation",
-            "Resume performance analytics"
-        ],
-        "live_url": "https://resume-ai-three-omega.vercel.app/",
-        "github_url": ""
-    },
+  "name": "ProfileIQ",
+  "category": "Full Stack/AI",
+  "description": "AI-powered employee and project intelligence platform that connects professional profiles, skills, project experience, availability, and project requirements to help companies discover and manage talent more effectively.",
+  "problem": "Companies often struggle to understand employee capabilities, track project experience, identify available resources, and find the right employees for new project requirements.",
+  "solution": "Developed an AI-powered company platform that builds intelligent employee profiles, analyzes resumes and project experience, extracts project requirements, matches employees with suitable opportunities, identifies skill gaps, and supports managers in project staffing and resource allocation.",
+  "technologies": [
+    "React",
+    "TypeScript",
+    "FastAPI",
+    "Python",
+    "PostgreSQL",
+    "OpenAI",
+    "LangChain",
+    "RAG",
+    "WebSockets"
+  ],
+  "workflow": [
+    "Admin manages employees, managers, clients, and projects",
+    "Employee creates a professional profile and uploads a resume",
+    "AI extracts skills, experience, projects, and professional information",
+    "Manager creates or uploads a project requirement",
+    "AI analyzes the requirement and extracts required skills and experience",
+    "AI matches suitable employees based on skills, experience, project history, and availability",
+    "Manager reviews explainable AI recommendations and shortlists candidates",
+    "Manager schedules interviews and communicates with employees",
+    "Selected employees are assigned to projects and their project history is updated"
+  ],
+  "learning": [
+    "AI-powered resume and document parsing",
+    "Requirement extraction using LLMs",
+    "Semantic skill and experience matching",
+    "RAG-based contextual AI",
+    "Explainable AI recommendations",
+    "Role-based access control",
+    "Real-time communication with WebSockets",
+    "Employee resource and project management",
+    "Structured AI output and data extraction"
+  ],
+  "future_scope": [
+    "Advanced employee skill intelligence",
+    "Predictive resource allocation",
+    "Organization-wide skill gap analytics",
+    "AI-powered project team recommendations",
+    "Employee career development roadmaps",
+    "Project knowledge assistant",
+    "Automated interview evaluation workflows",
+    "Advanced workforce analytics"
+  ],
+  "live_url": "https://resume-ai-three-omega.vercel.app/",
+  "github_url": ""
+},
 
     {
         "name": "AigramX",

@@ -125,50 +125,64 @@ export const projects = [
   },
   {
     id: 3,
-    name: "Resume AI",
-    title: "Resume AI — AI-Powered Resume Builder",
-    subtitle: "Create and improve professional resumes with AI",
+    name: "ProfileIQ",
+    title: "ProfileIQ — AI-Powered Employee & Project Intelligence",
+    subtitle: "Connect employee skills, project experience, and opportunities with AI",
 
     shortDescription:
-      "An AI-powered resume builder that helps users create structured and professional resumes from their details.",
+      "An AI-powered company platform that builds intelligent employee profiles, analyzes skills and project experience, and helps managers match employees with suitable project requirements.",
 
     category: "AI & Full Stack",
 
     technologies: [
       "React",
+      "TypeScript",
       "TailwindCSS",
       "Python",
       "FastAPI",
-      "OpenAI API"
+      "PostgreSQL",
+      "OpenAI",
+      "LangChain",
+      "RAG",
+      "WebSockets"
     ],
 
     liveUrl: "https://resume-ai-three-omega.vercel.app/",
     githubUrl: "https://github.com/abhi30052004/ResumeAI.git",
 
     futureScope: [
-      "ATS score analysis",
-      "Job description matching",
-      "Skill-gap analysis",
-      "LinkedIn profile optimization",
-      "Multiple resume templates"
+      "AI-powered resource allocation",
+      "Advanced skill-gap analysis",
+      "AI project team recommendations",
+      "Employee career development roadmap",
+      "Workforce analytics",
+      "Project knowledge assistant",
+      "Predictive staffing intelligence"
     ],
 
     projectFlow:
-      "User Details → AI Processing → Resume Generation → Editing → Final Resume",
+      "Employee Profile → AI Skill & Experience Analysis → Project Requirement → AI Matching → Manager Review → Interview → Project Assignment",
 
     keyFeatures: [
-      "AI-powered resume generation",
-      "Structured resume sections",
-      "Professional resume layouts",
-      "Resume editing",
-      "AI-based content improvement"
+      "AI-powered employee profile analysis",
+      "Resume and skill extraction",
+      "Project experience tracking",
+      "AI project requirement analysis",
+      "Employee-project matching",
+      "Explainable AI match analysis",
+      "Employee availability tracking",
+      "Internal project opportunities",
+      "Interview management",
+      "Real-time employee-manager communication",
+      "Role-based dashboards",
+      "AI career assistant"
     ],
 
     problem:
-      "Creating a professional and well-structured resume can be time-consuming, especially when tailoring content for different job opportunities.",
+      "Companies often struggle to understand employee capabilities, track project experience, identify available resources, and find the right employees for new project requirements.",
 
     solution:
-      "Resume AI uses AI to transform user details into structured resume content that can be edited and refined into a professional resume.",
+      "ProfileIQ connects employee profiles, skills, resumes, project history, availability, and project requirements into one platform. AI analyzes employee capabilities and project needs to provide explainable staffing recommendations, while managers retain control over shortlisting, interviews, and final project assignments.",
 
     featured: false,
 
