@@ -1,15 +1,148 @@
 import { useRef } from 'react';
+import { Cpu, Rocket, ArrowUpRight, FolderGit2 } from 'lucide-react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { journey } from '../data/journey';
 
 const journeyNodes = [
-  { month: "FEB", title: "Foundation", summary: "Strengthening programming fundamentals and understanding how modern applications are structured.", items: journey[0].items },
-  { month: "MAR", title: "Full Stack", summary: "Learning how frontend, APIs, backend, and databases communicate.", items: journey[1].items },
-  { month: "APR", title: "AI / ML", summary: "Exploring AI, NLP, and LLMs to solve complex user problems.", items: journey[2].items },
-  { month: "MAY", title: "Automation", summary: "Automating repetitive business workflows using enterprise platforms.", items: journey[3].items },
-  { month: "JUN", title: "AI Products", summary: "Integrating everything to build scalable, AI-powered applications.", items: journey[4].items },
-  { month: "JUL-AUG", title: "Growth", summary: "Moving from writing code to solving real-world problems.", items: ["Problem Solving", "UI/UX", "Product Thinking", "AI Integration", "Full-Stack Thinking", "Automation"] }
+  {
+    month: "FEB",
+    title: "Onboarding & Foundation",
+    summary:
+      "Began my professional journey with onboarding, getting familiar with the development environment and workflow while revisiting the programming fundamentals I already knew.",
+    items: [
+      "Programming Fundamentals",
+      "Python",
+      "JavaScript",
+      "SQL",
+      "Git & GitHub",
+      "Development Workflow",
+    ],
+    projects: [
+      "Technical Onboarding",
+      "Fundamentals Revision",
+    ],
+  },
+
+  {
+    month: "MAR",
+    title: "Frontend & Generative AI",
+    summary:
+      "Started learning React and LLM Engineering while exploring workflow automation with Zapier and building my first AI-powered applications.",
+    items: [
+      "React",
+      "LLM Engineering",
+      "Prompt Engineering",
+      "Zapier",
+      "Generative AI",
+      "Automation",
+    ],
+    projects: [
+      "AI Medical Chatbot",
+      "AI Email Automation",
+    ],
+  },
+
+  {
+    month: "APR",
+    title: "RAG & AI Engineering",
+    summary:
+      "Deepened my LLM Engineering knowledge by learning RAG and LangChain and applying these concepts to practical AI content and productivity applications.",
+    items: [
+      "LLM Engineering",
+      "RAG",
+      "LangChain",
+      "Prompt Engineering",
+      "Generative AI",
+      "AI Application Development",
+    ],
+    projects: [
+      "AI Content Writer",
+      "AI Email Writer",
+    ],
+  },
+
+  {
+    month: "MAY",
+    title: "Backend & Data Engineering",
+    summary:
+      "Expanded into backend development with FastAPI and TypeScript while building full-stack applications and developing my understanding of ETL and data pipelines.",
+    items: [
+      "FastAPI",
+      "TypeScript",
+      "Python",
+      "REST APIs",
+      "ETL",
+      "Data Processing",
+    ],
+    projects: [
+      "ATLAS — AI Research & Knowledge Agent",
+      "City Canvas",
+      "ETL Pipeline",
+    ],
+  },
+
+  {
+    month: "JUN",
+    title: "AI Platforms & Data",
+    summary:
+      "Completed major AI application projects while continuing ETL development and strengthening my SQL, data processing, and full-stack development skills.",
+    items: [
+      "AI Applications",
+      "SQL",
+      "ETL",
+      "Data Processing",
+      "RAG",
+      "Full-Stack Development",
+    ],
+    projects: [
+      "Safari",
+      "AI Learning Management Platform",
+      "ETL Pipeline",
+    ],
+  },
+
+  {
+    month: "JUL",
+    title: "Business Intelligence & Pre-Sales",
+    summary:
+      "Started learning Power BI and Excel while contributing to the Pre-Sales AI project as a frontend developer and building a full-stack AI chat application.",
+    items: [
+      "Power BI",
+      "Excel",
+      "React",
+      "TypeScript",
+      "Frontend Development",
+      "AI Integration",
+    ],
+    projects: [
+      "Pre-Sales AI Agent",
+      "AIGramX",
+    ],
+  },
+
+  {
+    month: "AUG-SEPT",
+    title: "AI Agents & Business Automation",
+    summary:
+      "Worked on Pre-Sales AI Agent V2 while expanding into Power Apps, Power Automate, Dataverse, and AI-powered procurement workflow automation.",
+    items: [
+      "AI Agents",
+      "React",
+      "Power Apps",
+      "Power Automate",
+      "Dataverse",
+      "Workflow Automation",
+    ],
+    projects: [
+      "Pre-Sales AI Agent V2",
+      "Procurement Power App",
+      "Procurement Automation",
+      "Power Apps Profile",
+    ],
+  },
 ];
+
+
 
 export default function JourneyTimeline() {
   const containerRef = useRef(null);
@@ -86,25 +219,63 @@ export default function JourneyTimeline() {
                     transition={{ duration: 0.5, type: "spring", bounce: 0.4 }}
                     className={`w-full ml-12 md:ml-0 md:w-[45%] ${isEven ? 'md:pr-12' : 'md:pl-12'}`}
                   >
-                    <div className="group relative glass p-6 md:p-8 rounded-3xl hover:bg-white/5 transition-colors duration-500 border border-white/10 hover:border-brand-indigo/50 overflow-hidden cursor-none" data-cursor="project">
+                    <div className="group relative bg-[#0a0a0a]/80 backdrop-blur-xl p-5 md:p-6 rounded-3xl hover:bg-[#111]/90 transition-all duration-500 border border-white/[0.05] hover:border-brand-indigo/40 overflow-hidden cursor-none shadow-2xl" data-cursor="project">
                       
                       {/* Subtle hover glow effect */}
-                      <div className="absolute inset-0 bg-gradient-to-br from-brand-indigo/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                      <div className="absolute inset-0 bg-gradient-to-br from-brand-indigo/10 via-transparent to-brand-cyan/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
                       
                       <div className="relative z-10">
-                        <div className="inline-block px-3 py-1 mb-4 rounded-full bg-brand-indigo/20 border border-brand-indigo/30 text-brand-cyan text-xs font-bold tracking-widest uppercase">
-                          {node.month}
+                        {/* Header Section */}
+                        <div className="flex items-center justify-between mb-4">
+                          <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-brand-indigo/10 border border-brand-indigo/20 text-brand-cyan text-[9px] font-bold tracking-widest uppercase shadow-[0_0_10px_rgba(99,102,241,0.2)]">
+                            <span className="w-1.5 h-1.5 rounded-full bg-brand-cyan animate-pulse" />
+                            {node.month}
+                          </div>
                         </div>
-                        <h3 className="text-2xl md:text-3xl font-black text-white mb-3 tracking-tight group-hover:text-brand-cyan transition-colors">{node.title}</h3>
-                        <p className="text-brand-text-muted mb-6 text-sm md:text-base leading-relaxed">{node.summary}</p>
                         
-                        <div className="flex flex-wrap gap-2">
-                          {node.items.map((item, j) => (
-                            <span key={j} className="px-3 py-1 bg-black/40 border border-white/5 text-white/80 rounded-lg text-xs font-medium tracking-wide">
-                              {item}
-                            </span>
-                          ))}
+                        <h3 className="text-xl md:text-2xl font-black text-white mb-2 tracking-tight group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-brand-cyan transition-all duration-300">
+                          {node.title}
+                        </h3>
+                        
+                        <p className="text-white/60 mb-6 text-xs md:text-sm leading-relaxed font-light">
+                          {node.summary}
+                        </p>
+                        
+                        {/* Skills / Tech - Minimalist */}
+                        <div className="mb-5">
+                          <h4 className="text-[9px] uppercase tracking-widest text-white/40 font-semibold mb-2 flex items-center gap-1.5">
+                            <Cpu size={12} className="text-brand-indigo" /> Core Technologies
+                          </h4>
+                          <div className="flex flex-wrap gap-1.5">
+                            {node.items.map((item, j) => (
+                              <span key={j} className="px-2.5 py-1 bg-white/[0.03] border border-white/[0.05] text-white/70 hover:text-white hover:bg-white/[0.1] hover:border-white/[0.1] transition-all rounded-md text-[10px] md:text-xs font-medium tracking-wide">
+                                {item}
+                              </span>
+                            ))}
+                          </div>
                         </div>
+
+                        {/* Projects - Sleek List */}
+                        {node.projects && node.projects.length > 0 && (
+                          <div className="pt-4 border-t border-white/[0.05]">
+                            <h4 className="text-[9px] uppercase tracking-widest text-white/40 font-semibold mb-2 flex items-center gap-1.5">
+                              <Rocket size={12} className="text-brand-cyan" /> Key Projects
+                            </h4>
+                            <div className="flex flex-col gap-2">
+                              {node.projects.map((project, k) => (
+                                <div key={k} className="group/project flex items-center justify-between p-2 rounded-lg bg-black/40 border border-white/[0.02] hover:border-brand-cyan/20 hover:bg-brand-cyan/[0.02] transition-all duration-300 cursor-pointer">
+                                  <div className="flex items-center gap-2.5">
+                                    <div className="w-6 h-6 rounded-md bg-brand-indigo/10 flex items-center justify-center border border-brand-indigo/20 group-hover/project:border-brand-cyan/30 group-hover/project:bg-brand-cyan/10 transition-colors">
+                                      <FolderGit2 size={12} className="text-brand-indigo group-hover/project:text-brand-cyan transition-colors" />
+                                    </div>
+                                    <span className="text-white/80 text-xs font-medium group-hover/project:text-white transition-colors">{project}</span>
+                                  </div>
+                                  <ArrowUpRight size={14} className="text-white/20 group-hover/project:text-brand-cyan group-hover/project:-translate-y-0.5 group-hover/project:translate-x-0.5 transition-all duration-300" />
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        )}
                       </div>
                     </div>
                   </motion.div>
