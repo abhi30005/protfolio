@@ -5,8 +5,6 @@ import Magnetic from './Magnetic';
 import GhostFibers from './GhostFibers';
 import Lanyard from './Lanyard';
 
-import { abImage } from './cardImage';
-
 const lanyardStripesSVG = `
 <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100">
   <rect x="0" width="50" height="100" fill="#000000" />
@@ -17,7 +15,7 @@ const lanyardStripesImage = `data:image/svg+xml;utf8,${encodeURIComponent(lanyar
 
 export default function Hero() {
   return (
-    <section id="hero" className="relative min-h-[100svh] w-full flex flex-col justify-center overflow-hidden">
+    <section id="hero" className="relative min-h-[100svh] w-full flex flex-col justify-center">
 
       {/* Background 3D Visual */}
       <div className="absolute inset-0 z-0 pointer-events-none">
@@ -136,7 +134,7 @@ export default function Hero() {
             transition={{ duration: 1.2, ease: [0.76, 0, 0.24, 1], delay: 0.2 }}
             className="order-1 lg:order-2 flex justify-center w-full"
           >
-            <Lanyard frontImage={abImage} backImage={abImage} lanyardImage={lanyardStripesImage} imageFit="fill" />
+            <Lanyard lanyardImage={lanyardStripesImage} position={[0, 0, 8]} fov={25} />
           </motion.div>
         </div>
       </div>

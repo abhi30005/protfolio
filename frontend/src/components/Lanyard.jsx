@@ -2,9 +2,10 @@
 'use client';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Canvas, extend, useFrame } from '@react-three/fiber';
-import { useGLTF, useTexture, Environment, Lightformer } from '@react-three/drei';
+import { useGLTF, useTexture, Environment, Lightformer, Html } from '@react-three/drei';
 import { BallCollider, CuboidCollider, Physics, RigidBody, useRopeJoint, useSphericalJoint } from '@react-three/rapier';
 import { MeshLineGeometry, MeshLineMaterial } from 'meshline';
+import IDCard from './IDCard';
 
 import cardGLB from './card.glb?url';
 import lanyard from './lanyard.png';
@@ -291,6 +292,13 @@ function Band({
         </RigidBody>
         <RigidBody position={[2, 0, 0]} ref={card} {...segmentProps} type={dragged ? 'kinematicPosition' : 'dynamic'}>
           <CuboidCollider args={[0.8, 1.125, 0.01]} />
+          
+          <Html position={[0, -0.4, 0]} transform={false} center style={{ pointerEvents: 'none' }}>
+            <div style={{ transform: 'scale(0.75)', transformOrigin: 'center top' }}>
+              <IDCard />
+            </div>
+          </Html>
+
           <group
             scale={2.25}
             position={[0, -1.2, -0.05]}
@@ -303,14 +311,7 @@ function Band({
             )}
           >
             <mesh geometry={nodes.card.geometry}>
-              <meshPhysicalMaterial
-                map={cardMap}
-                map-anisotropy={16}
-                clearcoat={isMobile ? 0 : 1}
-                clearcoatRoughness={0.15}
-                roughness={0.3}
-                metalness={0.5}
-              />
+              <meshBasicMaterial transparent={true} opacity={0} depthWrite={false} />
             </mesh>
             <mesh geometry={nodes.clip.geometry} material={materials.metal} material-roughness={0.3} />
             <mesh geometry={nodes.clamp.geometry} material={materials.metal} />
