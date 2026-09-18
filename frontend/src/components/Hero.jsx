@@ -7,8 +7,7 @@ import Lanyard from './Lanyard';
 
 const lanyardStripesSVG = `
 <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100">
-  <rect x="0" width="50" height="100" fill="#000000" />
-  <rect x="50" width="50" height="100" fill="#22c55e" />
+  <rect x="0" width="100" height="100" fill="#22c55e" />
 </svg>
 `;
 const lanyardStripesImage = `data:image/svg+xml;utf8,${encodeURIComponent(lanyardStripesSVG)}`;
@@ -61,7 +60,7 @@ export default function Hero() {
             initial={{ opacity: 0, filter: 'blur(10px)', y: 20 }}
             animate={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
             transition={{ duration: 1.2, ease: [0.76, 0, 0.24, 1] }}
-            className="flex flex-col max-w-2xl order-2 lg:order-1"
+            className="flex flex-col max-w-2xl order-2 lg:order-1 relative z-20 pointer-events-auto"
           >
             <motion.div
               initial={{ opacity: 0, width: 0 }}
@@ -134,9 +133,14 @@ export default function Hero() {
             transition={{ duration: 1.2, ease: [0.76, 0, 0.24, 1], delay: 0.2 }}
             className="order-1 lg:order-2 flex justify-center w-full"
           >
-            <Lanyard lanyardImage={lanyardStripesImage} position={[0, 0, 8]} fov={25} />
+            {/* The lanyard was here, now moved to full-screen overlay */}
           </motion.div>
         </div>
+      </div>
+
+      {/* Full-Screen Lanyard Overlay */}
+      <div className="absolute inset-0 z-30 pointer-events-none">
+        <Lanyard lanyardImage={lanyardStripesImage} position={[0, 0, 8]} fov={25} />
       </div>
     </section>
   );

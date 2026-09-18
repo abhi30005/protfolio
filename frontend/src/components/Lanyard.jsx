@@ -1,7 +1,7 @@
 /* eslint-disable react/no-unknown-property */
 'use client';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Canvas, extend, useFrame } from '@react-three/fiber';
+import { Canvas, extend, useFrame, useThree } from '@react-three/fiber';
 import { useGLTF, useTexture, Environment, Lightformer, Html } from '@react-three/drei';
 import { BallCollider, CuboidCollider, Physics, RigidBody, useRopeJoint, useSphericalJoint } from '@react-three/rapier';
 import { MeshLineGeometry, MeshLineMaterial } from 'meshline';
@@ -44,8 +44,11 @@ export default function Lanyard({
   }, []);
 
   return (
-    <div className="lanyard-wrapper">
+    <div className="w-full h-full flex justify-center items-center">
       <Canvas
+        key="lanyard-canvas-v2"
+        className="pointer-events-none"
+        eventSource={typeof window !== 'undefined' ? document.body : undefined}
         camera={{ position: position, fov: fov }}
         dpr={[1, isMobile ? 1.5 : 2]}
         gl={{ alpha: transparent }}
@@ -109,6 +112,7 @@ function Band({
   avatarImage = null,
   lanyardWidth = 1
 }) {
+  const { size: { width, height } } = useThree();
   const band = useRef(),
     fixed = useRef(),
     j1 = useRef(),
@@ -236,7 +240,7 @@ function Band({
   useRopeJoint(j2, j3, [[0, 0, 0], [0, 0, 0], 1]);
   useSphericalJoint(j3, card, [
     [0, 0, 0],
-    [0, 1.5, 0]
+    [0, 1.5, -0.05]
   ]);
 
   useEffect(() => {
@@ -245,6 +249,15 @@ function Band({
       return () => void (document.body.style.cursor = 'auto');
     }
   }, [hovered, dragged]);
+
+  useEffect(() => {
+    if (materials?.metal) {
+      materials.metal.depthWrite = true;
+      materials.metal.depthTest = true;
+      materials.metal.transparent = false;
+      materials.metal.needsUpdate = true;
+    }
+  }, [materials]);
 
   useFrame((state, delta) => {
     if (dragged) {
@@ -263,8 +276,19 @@ function Band({
           delta * (minSpeed + clampedDistance * (maxSpeed - minSpeed))
         );
       });
-      curve.points[0].copy(j3.current.translation());
-      curve.points[1].copy(j2.current.lerped);
+      // Calculate string curve
+      const p0 = new THREE.Vector3().copy(j3.current.translation());
+      const p1 = new THREE.Vector3().copy(j2.current.lerped);
+      
+      // Extend the string slightly down and further back so it attaches behind the clip without overlapping
+      const cardRot = card.current.rotation();
+      const cardQuat = new THREE.Quaternion(cardRot.x, cardRot.y, cardRot.z, cardRot.w);
+      const downVec = new THREE.Vector3(0, -1, 0).applyQuaternion(cardQuat);
+      const backVec = new THREE.Vector3(0, 0, -1).applyQuaternion(cardQuat);
+      p0.add(downVec.multiplyScalar(0.05)).add(backVec.multiplyScalar(0.15));
+
+      curve.points[0].copy(p0);
+      curve.points[1].copy(p1);
       curve.points[2].copy(j1.current.lerped);
       curve.points[3].copy(fixed.current.translation());
       band.current.geometry.setPoints(curve.getPoints(isMobile ? 16 : 32));
@@ -279,7 +303,7 @@ function Band({
 
   return (
     <>
-      <group position={[0, 4, 0]}>
+      <group position={[1.5, 4, 0]}>
         <RigidBody ref={fixed} {...segmentProps} type="fixed" />
         <RigidBody position={[0.5, 0, 0]} ref={j1} {...segmentProps}>
           <BallCollider args={[0.1]} />
@@ -291,9 +315,9 @@ function Band({
           <BallCollider args={[0.1]} />
         </RigidBody>
         <RigidBody position={[2, 0, 0]} ref={card} {...segmentProps} type={dragged ? 'kinematicPosition' : 'dynamic'}>
-          <CuboidCollider args={[0.8, 1.125, 0.01]} />
+          <CuboidCollider args={[0.93, 1.125, 0.01]} />
           
-          <Html position={[0, -0.4, 0]} transform={false} center style={{ pointerEvents: 'none' }}>
+          <Html position={[0, 0.25, 0]} transform={false} center style={{ pointerEvents: 'none' }}>
             <div style={{ transform: 'scale(0.75)', transformOrigin: 'center top' }}>
               <IDCard />
             </div>
@@ -310,7 +334,7 @@ function Band({
               drag(new THREE.Vector3().copy(e.point).sub(vec.copy(card.current.translation())))
             )}
           >
-            <mesh geometry={nodes.card.geometry}>
+            <mesh geometry={nodes.card.geometry} position={[0, 0.25, 0]} scale={[2, 2, 2]}>
               <meshBasicMaterial transparent={true} opacity={0} depthWrite={false} />
             </mesh>
             <mesh geometry={nodes.clip.geometry} material={materials.metal} material-roughness={0.3} />
@@ -322,12 +346,13 @@ function Band({
         <meshLineGeometry />
         <meshLineMaterial
           color="white"
-          depthTest={false}
-          resolution={isMobile ? [1000, 2000] : [1000, 1000]}
+          depthTest={true}
+          resolution={[width, height]}
           useMap={true}
           map={texture}
           repeat={[-1, 80]}
-          lineWidth={lanyardWidth}
+          sizeAttenuation={1}
+          lineWidth={0.55}
         />
       </mesh>
     </>
