@@ -403,8 +403,8 @@ function GalleryImage({ url, liveUrl, title, open, inPlace, id, onInPlace, total
   const [firstLoad, setLoaded] = useState(true)
   const clip = useRef(null)
 
-  const gap = 10
-  const circleRadius = 7
+  const gap = 14
+  const circleRadius = 10
   const defaults = { transformOrigin: "center center" }
   const duration = 0.4
   const width = 1200
@@ -523,14 +523,16 @@ function GalleryImage({ url, liveUrl, title, open, inPlace, id, onInPlace, total
 }
 
 function Tabs({ projects, onSelect }) {
-  const gap = 10
-  const circleRadius = 7
+  const gap = 14
+  const circleRadius = 10
   const width = 1200
   const height = 650
 
   const getPosX = (i) =>
     width / 2 - (projects.length * (circleRadius * 2 + gap) - gap) / 2 + i * (circleRadius * 2 + gap)
   const getPosY = () => height - 30
+
+  const emojis = ['😀', '😎', '🧐', '🤩', '🤓', '🤔', '🤠', '😲', '🥳', '🤯'];
 
   return (
     <svg
@@ -542,28 +544,23 @@ function Tabs({ projects, onSelect }) {
     >
       {projects.map((project, i) => (
         <g key={project.id || i} className="pointer-events-auto">
-          <defs>
-            <clipPath id={`tab_${i}_clip`}>
-              <circle cx={getPosX(i)} cy={getPosY()} r={circleRadius} />
-            </clipPath>
-          </defs>
-          <image
-            x={getPosX(i) - circleRadius}
-            y={getPosY() - circleRadius}
-            width={circleRadius * 2}
-            height={circleRadius * 2}
-            href={project.image || "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop"}
-            clipPath={`url(#tab_${i}_clip)`}
-            className="pointer-events-none"
-            preserveAspectRatio="xMidYMid slice"
-          />
+          <text
+            x={getPosX(i)}
+            y={getPosY() + 1}
+            fontSize={16}
+            textAnchor="middle"
+            dominantBaseline="central"
+            className="pointer-events-none select-none drop-shadow-md"
+          >
+            {emojis[i % emojis.length]}
+          </text>
           <circle
             onClick={() => onSelect(i)}
             className="cursor-pointer fill-transparent stroke-white/40 hover:stroke-white transition-all duration-300"
             strokeWidth="1.5"
             cx={getPosX(i)}
             cy={getPosY()}
-            r={circleRadius + 3}
+            r={circleRadius + 4}
           />
         </g>
       ))}
