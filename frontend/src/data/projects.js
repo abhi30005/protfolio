@@ -611,5 +611,79 @@ export const projects = [
     visualStyle: "architecture",
 
     image: ""
-  }
+  },
+  {
+id: 11,
+name: "AI VOICE AGENT",
+title: "AI Voice Agent — Real-Time Voice AI Assistant",
+subtitle: "Real-time AI voice assistant powered by LLMs",
+
+shortDescription:
+"A full-stack, real-time AI voice assistant that listens to users, processes speech with an intelligent LLM agent, uses tools and RAG for knowledge retrieval, and speaks responses back using text-to-speech.",
+
+category: "AI & Full Stack",
+
+technologies: [
+"Next.js",
+"React",
+"TypeScript",
+"TailwindCSS",
+"FastAPI",
+"Python",
+"LangGraph",
+"LangChain",
+"OpenAI",
+"Groq",
+"Ollama",
+"faster-whisper",
+"ElevenLabs",
+"Silero VAD",
+"MongoDB",
+"ChromaDB",
+"Docker",
+"JWT"
+],
+
+liveUrl: "https://voiceagent-xi-blue.vercel.app/",
+githubUrl: "https://github.com/abhi30005/Ai_Voice_Agent.git",
+
+futureScope: [
+"Advanced multi-agent voice workflows",
+"More voice and language providers",
+"Improved real-time voice interaction",
+"Advanced RAG and document understanding",
+"Custom agent tools and integrations"
+],
+
+projectFlow:
+"Voice Input → VAD → Speech-to-Text → LangGraph Agent → LLM → Tools/RAG → Text-to-Speech → Voice Response",
+
+keyFeatures: [
+"Real-time voice interaction",
+"WebSocket-based audio streaming",
+"Voice Activity Detection",
+"Speech-to-Text with faster-whisper",
+"Text-to-Speech with ElevenLabs and gTTS",
+"LangGraph agent with tool calling",
+"Multi-LLM support",
+"RAG-based document search",
+"Persistent conversation memory",
+"Multi-conversation management",
+"JWT authentication",
+"Live transcription",
+"Responsive glassmorphism UI"
+],
+
+problem:
+"Traditional AI chat applications mainly rely on text interaction, making it difficult to have natural, real-time conversations with an AI assistant.",
+
+solution:
+"AI Voice Agent provides a real-time voice-first AI experience where users can speak naturally, have their speech transcribed, interact with an intelligent LangGraph agent using tools and RAG, and receive spoken responses.",
+
+featured: false,
+
+visualStyle: "flagship",
+
+image: ""
+}
 ];

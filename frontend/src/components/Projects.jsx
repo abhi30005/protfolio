@@ -191,11 +191,14 @@ export default function Projects() {
   useEffect(() => {
     if (activeProject) {
       document.body.style.overflow = 'hidden';
+      document.body.style.touchAction = 'none';
     } else {
       document.body.style.overflow = '';
+      document.body.style.touchAction = '';
     }
     return () => {
       document.body.style.overflow = '';
+      document.body.style.touchAction = '';
     };
   }, [activeProject]);
 
@@ -214,9 +217,9 @@ export default function Projects() {
 
       <AnimatePresence>
         {activeProject && (
-          <ProjectBookModal 
-            project={activeProject} 
-            onClose={() => setActiveProject(null)} 
+          <ProjectBookModal
+            project={activeProject}
+            onClose={() => setActiveProject(null)}
           />
         )}
       </AnimatePresence>
@@ -321,36 +324,36 @@ function ImageGallery({ projects, onOpenProject }) {
   return (
     <div className="relative w-full max-w-[1300px] flex items-center justify-center font-sans h-[500px] md:h-[650px] mx-auto">
       <div ref={galleryRef} className="relative h-[80vmin] w-[95vw] md:w-full max-h-[650px] max-w-[1200px] overflow-hidden rounded-[40px] border border-white/5 shadow-[0_0_50px_rgba(0,0,0,0.5)] bg-black/20 backdrop-blur-3xl group">
-        
+
         {/* Dark Overlay to make text pop */}
         <div className="absolute inset-0 bg-black/30 pointer-events-none z-[40] transition-opacity duration-500 group-hover:opacity-60" />
 
         {/* HTML Overlay for Text & Buttons */}
         <div className="absolute inset-0 z-[50] flex flex-col justify-end p-8 md:p-12 pointer-events-none bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-           {activeProject && (
-              <>
-                <h3 className="text-white font-black text-3xl md:text-5xl tracking-tighter leading-tight mb-2 drop-shadow-md">
-                  {activeProject.name || activeProject.title}
-                </h3>
-                <div className="flex gap-3 items-center mt-2">
-                   <span className="text-brand-cyan text-[11px] md:text-xs uppercase tracking-widest font-bold bg-brand-cyan/10 px-3 py-1 rounded-full border border-brand-cyan/20">
-                     {activeProject.category}
-                   </span>
-                   {(activeProject.name || activeProject.title || "").includes("Pre-Sales") && (
-                     <span className="text-amber-500 font-bold text-[10px] md:text-[11px] tracking-widest uppercase border border-amber-500/30 px-3 py-1 rounded-full bg-amber-500/10">
-                       In Progress
-                     </span>
-                   )}
-                </div>
-                
-                <button 
-                  onClick={() => onOpenProject(activeProject)}
-                  className="mt-8 px-8 py-4 bg-white text-black hover:bg-brand-cyan hover:scale-105 rounded-full text-center text-xs uppercase tracking-widest font-bold transition-all shadow-[0_10px_20px_rgba(0,0,0,0.3)] max-w-max pointer-events-auto flex items-center gap-2"
-                >
-                  View Case Study <ExternalLink size={14} />
-                </button>
-              </>
-           )}
+          {activeProject && (
+            <>
+              <h3 className="text-white font-black text-3xl md:text-5xl tracking-tighter leading-tight mb-2 drop-shadow-md">
+                {activeProject.name || activeProject.title}
+              </h3>
+              <div className="flex gap-3 items-center mt-2">
+                <span className="text-brand-cyan text-[11px] md:text-xs uppercase tracking-widest font-bold bg-brand-cyan/10 px-3 py-1 rounded-full border border-brand-cyan/20">
+                  {activeProject.category}
+                </span>
+                {(activeProject.name || activeProject.title || "").includes("Pre-Sales") && (
+                  <span className="text-amber-500 font-bold text-[10px] md:text-[11px] tracking-widest uppercase border border-amber-500/30 px-3 py-1 rounded-full bg-amber-500/10">
+                    In Progress
+                  </span>
+                )}
+              </div>
+
+              <button
+                onClick={() => onOpenProject(activeProject)}
+                className="mt-8 px-8 py-4 bg-white text-black hover:bg-brand-cyan hover:scale-105 rounded-full text-center text-xs uppercase tracking-widest font-bold transition-all shadow-[0_10px_20px_rgba(0,0,0,0.3)] max-w-max pointer-events-auto flex items-center gap-2"
+              >
+                View Case Study <ExternalLink size={14} />
+              </button>
+            </>
+          )}
         </div>
 
         {/* SVG GSAP Images */}
