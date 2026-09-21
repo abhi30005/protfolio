@@ -12,13 +12,11 @@ export default function GlowBackground() {
       
       {/* Dynamic cursor-following spotlight */}
       <motion.div
-        className="absolute top-0 left-0 w-[600px] h-[600px] bg-brand-cyan/10 rounded-full blur-[100px]"
-        animate={{
-          x: x - 300,
-          y: y - 300,
-        }}
-        transition={{ type: 'tween', ease: 'backOut', duration: 1 }}
-      />
+        className="absolute top-0 left-0 w-[600px] h-[600px] pointer-events-none"
+        style={{ x, y }}
+      >
+        <div className="w-full h-full bg-brand-cyan/10 rounded-full blur-[100px] -translate-x-1/2 -translate-y-1/2" />
+      </motion.div>
     </div>
   );
 }
