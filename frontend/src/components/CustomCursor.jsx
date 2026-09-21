@@ -56,7 +56,6 @@ export default function CustomCursor() {
     };
   }, []);
 
-  const { x, y } = useMousePosition();
 
   if (isMobile) return null;
 
