@@ -12,7 +12,7 @@ export const useScrollProgress = () => {
       }
     };
 
-    window.addEventListener("scroll", updateScrollProgress);
+    window.addEventListener("scroll", updateScrollProgress, { passive: true });
 
     return () => {
       window.removeEventListener("scroll", updateScrollProgress);

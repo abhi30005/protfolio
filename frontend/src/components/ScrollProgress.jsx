@@ -20,10 +20,9 @@ export default function ScrollProgress() {
   const [activeIndex, setActiveIndex] = useState(0);
 
   useEffect(() => {
+    const sections = chapters.map(c => document.getElementById(c.id)).filter(Boolean);
+
     const handleScroll = () => {
-      // Very basic section tracking based on offsets
-      // In a real app, IntersectionObserver is better, but this works for the progress indicator
-      const sections = chapters.map(c => document.getElementById(c.id)).filter(Boolean);
       if (sections.length === 0) return;
       
       const scrollPosition = window.scrollY + window.innerHeight / 2;
@@ -39,7 +38,10 @@ export default function ScrollProgress() {
       }
     };
     
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    // Initialize on mount
+    handleScroll();
+
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
