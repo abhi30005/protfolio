@@ -295,7 +295,7 @@ function ImageGallery({ projects, onOpenProject }) {
       clearInterval(autoplayTimer.current)
     }
 
-    autoplayTimer.current = window.setInterval(next, 4500)
+    autoplayTimer.current = window.setInterval(next, 7000)
 
     return () => {
       if (autoplayTimer.current) {
